@@ -26,10 +26,6 @@ const General1 = () => {
       }
     }
   };
-  console.log("Первое решение:");
-  console.log(findBanners1(sortedArray, testUserWidth));
-  console.log("Число итераций:", findBanners1Counter);
-  console.log("==========================================");
 
   /*
     Для нового решения нам нужно хранить все баннеры в строго отсортированном по возрастанию массиве.
@@ -63,10 +59,6 @@ const General1 = () => {
     }
   };
 
-  console.log("Второе решение:");
-  console.log(findBanners2(sortedArray, testUserWidth));
-  console.log("Число итераций:", findBanners2Counter);
-
   return (
     <div>
       <h1>Пример из фронтенда</h1>
@@ -78,6 +70,20 @@ const General1 = () => {
         браузера пользователя, и их выводить.
       </p>
       <img src={image} alt="banners" width="50%" />
+      <div>
+        <h2>Код смотреть в general-1.jsx</h2>
+        Первое решение:
+        <br />
+        {String(findBanners1(sortedArray, testUserWidth))}
+        <br />
+        Число итераций: {findBanners1Counter}
+        <hr />
+        Второе решение:
+        <br />
+        {String(findBanners2(sortedArray, testUserWidth))}
+        <br />
+        Число итераций: {findBanners2Counter}
+      </div>
     </div>
   );
 };
