@@ -1,0 +1,16 @@
+.DS_Store
+.idea
+.vscode
+.nvmrc
+build
+*.ai
+*.log
+*.psd
+*.sublime*
+node_modules/
+npm-debug.*
+source/css/*.css
+source/css/*.map
+Thumbs.db
+
+*storybook.log
