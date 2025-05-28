@@ -4,6 +4,7 @@ import { StyledPage } from "./styled";
 
 import { General1 } from "./general-1";
 import { General2 } from "./general-2";
+import { General3 } from "./general-3";
 
 export const General1Start = () => (
   <StyledPage>
@@ -14,6 +15,11 @@ export const General1Start = () => (
 export const General2Start = () => (
   <StyledPage>
     <General2 />
+  </StyledPage>
+);
+export const General3Start = () => (
+  <StyledPage>
+    <General3 />
   </StyledPage>
 );
 
