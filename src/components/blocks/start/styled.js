@@ -13,6 +13,10 @@ const StyledPage = styled.div`
     margin: 0 0 20px;
   }
 
+  p {
+    font-size: 1.3rem;
+  }
+
   background-color: #969696;
   margin: -1rem;
   padding: 2rem;
