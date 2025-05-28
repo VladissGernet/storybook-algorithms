@@ -55,7 +55,7 @@ const General2 = () => {
       } else {
         // Иначе проверяем счётчик, если он больше максимального, то обновляем максимальный и сохраняем максимальный результат.
         if (countOfValueMatches > maxCountOfValueMatches) {
-          maxResultValue = resultValue;
+          maxResultValue = countOfValueMatches;
         }
         countOfValueMatches = 1;
         resultValue = merged[i];
@@ -65,7 +65,36 @@ const General2 = () => {
     return maxResultValue;
   };
 
-  countMostFrequentMySolution(arr1, arr2);
+  // const countMostFrequentNotOptimized = (firstArray, secondArray) => {
+  //   const union = [...firstArray, ...secondArray];
+  //   const counter = {};
+
+  //   for (const number of union) {
+  //     counter[number] = counter[number] ? counter[number] + 1 : 1;
+  //   }
+
+  //   let maxFrequency = 0;
+
+  //   for (const frequency of Object.values(counter)) {
+  //     if (frequency > maxFrequency) {
+  //       maxFrequency = frequency;
+  //     }
+  //   }
+
+  //   return maxFrequency;
+  // };
+  // Сложность O(n + m)
+
+  // const countMostFrequentEasyWorstSolution = (firstArray, secondArray) => {
+  //   const union = [...firstArray, ...secondArray];
+
+  //   return union.reduce((maxOccurences, current, _, array) => {
+  //     const currentOccurences = array.filter((num) => num === current).length;
+
+  //     return Math.max(currentOccurences, maxOccurences);
+  //   }, 0);
+  // }
+  // Сложность: O((n + m)^2)
 
   return (
     <div>
@@ -75,7 +104,11 @@ const General2 = () => {
         объединении двух отсортированных по возрастанию массивов. Элементы могут
         повторяться.
       </p>
-      <Tester result={123} answer={123} />
+      <Tester
+        result={countMostFrequentMySolution([1, 2, 2, 3], [0, 2, 4, 4])}
+        answer={3}
+      />
+      <Tester result={countMostFrequentMySolution([], [0, 0])} answer={2} />
     </div>
   );
 };
