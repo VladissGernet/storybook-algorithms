@@ -35,8 +35,6 @@ const General2 = () => {
         // Иначе обнуляем счётчик и записываем текущее число.
 
         if (countOfValueMatches > maxCountOfValueMatches) {
-          console.log("go");
-
           maxCountOfValueMatches = countOfValueMatches;
         }
         countOfValueMatches = 1;
