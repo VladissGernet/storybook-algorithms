@@ -10,38 +10,46 @@ const General2 = () => {
     countMostFrequent([1, 2, 2, 3], [0, 2, 4, 4]) => 3
     countMostFrequent([], [0, 0]) => 2
   */
-  const arr1 = [1, 2, 2, 3];
-  const arr2 = [0, 2, 4, 4];
+  // const arr1 = [1, 2, 2, 3];
+  // const arr2 = [0, 2, 4, 4];
 
+  // Сложность  O((n + m) log(n + m)) из-за сортировки.
   const countMostFrequentMySolution = (arr1, arr2) => {
     const merged = [...arr1, ...arr2].sort();
 
-    let resultValue;
-    let countOfValueMatches;
-    let maxCountOfValueMatches = 1;
-    let maxResultValue;
+    let currentValue;
+    let countOfValueMatches = 1;
+    let maxCountOfValueMatches = 0;
 
     for (let i = 0; i < merged.length; i++) {
       // Пропускаем первую итерацию и записываем первое число массива.
       if (i === 0) {
-        resultValue = merged[i];
+        currentValue = merged[i];
         continue;
       }
 
       // Если текущее число равно предыдущему, то увеличиваем счётчик.
-      if (merged[i] === resultValue) {
+      if (merged[i] === currentValue) {
         countOfValueMatches++;
       } else {
-        // Иначе проверяем счётчик, если он больше максимального, то обновляем максимальный и сохраняем максимальный результат.
+        // Иначе обнуляем счётчик и записываем текущее число.
+
         if (countOfValueMatches > maxCountOfValueMatches) {
-          maxResultValue = countOfValueMatches;
+          console.log("go");
+
+          maxCountOfValueMatches = countOfValueMatches;
         }
         countOfValueMatches = 1;
-        resultValue = merged[i];
+        currentValue = merged[i];
       }
     }
 
-    return maxResultValue;
+    // После цикла нужно проверить последний блок повторяющихся чисел
+    if (countOfValueMatches > maxCountOfValueMatches) {
+      maxCountOfValueMatches = countOfValueMatches;
+    }
+
+    return maxCountOfValueMatches;
   };
 
   /*
@@ -153,8 +161,6 @@ const General2 = () => {
     return result;
   };
 
-  console.log(countMostFrequentHard(arr1, arr2));
-
   return (
     <div>
       <h1>Примеры алгоритмически переусложнённого кода</h1>
@@ -167,7 +173,7 @@ const General2 = () => {
         result={countMostFrequentMySolution([1, 2, 2, 3], [0, 2, 4, 4])}
         answer={3}
       />
-      <Tester result={countMostFrequentMySolution([], [0, 0])} answer={2} />
+      <Tester result={countMostFrequentMySolution([], [0, 0, 0])} answer={3} />
     </div>
   );
 };
