@@ -87,6 +87,7 @@ const General2 = () => {
 */
   // Сложность: O((n + m)^2)
 
+  // Ниже трудночитаемый код, но работает за O(n + m) по времени с константной.
   const countDuplicates = (array, startPosition) => {
     // сначала предположим, что число встречается всего один раз
     let lastPosition = startPosition;
