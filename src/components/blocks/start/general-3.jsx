@@ -81,16 +81,14 @@ const General3 = () => {
         }
 
         // Если первые три числа с одинаковой четностью, то цикл продложать до тех пор, пока не найдется отличающеся четностью число.
-        if (isEven === true && arr[i][arr[i].length - 1] !== "0") {
-          return i + 1;
-        } else if (isEven === false && arr[i][arr[i].length - 1] !== "1") {
+        const expectedBit = isEven ? "0" : "1";
+        if (arr[i][arr[i].length - 1] !== expectedBit) {
           return i + 1;
         }
       } else {
         // Продолжаем искать число по массиву отличающееся четностью.
-        if (isEven === true && arr[i][arr[i].length - 1] !== "0") {
-          return i + 1;
-        } else if (isEven === false && arr[i][arr[i].length - 1] !== "1") {
+        const expectedBit = isEven ? "0" : "1";
+        if (arr[i][arr[i].length - 1] !== expectedBit) {
           return i + 1;
         }
       }
@@ -110,9 +108,9 @@ const General3 = () => {
         тесте iq — из списка чисел найти то, которое отличается по чётности от
         остальных, и вернуть его позицию.
       </p>
-      {/* <Tester result={iqTestSolution2("2 4 7 8 10")} answer={3} /> */}
+      <Tester result={iqTestSolution2("2 4 7 8 10")} answer={3} />
       <Tester result={iqTestSolution2("1 1 1 1 1 2 1")} answer={6} />
-      {/* <Tester result={iqTestSolution2("1 2 1 1")} answer={2} /> */}
+      <Tester result={iqTestSolution2("1 2 1 1")} answer={2} />
     </div>
   );
 };
