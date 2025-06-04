@@ -38,7 +38,34 @@ const General5 = () => {
   ];
 
   const countMaxPeople = (timesArr) => {
-    return false;
+    /*
+      Если люди входят и выходят одновременно, считается, что выход происходит раньше, т.е. текущее количество людей не меняется.
+    */
+    if (timesArr && timesArr.length === false) {
+      return 0;
+    }
+
+    let dayTimes = {};
+    let maxHour = 0;
+
+    for (let time of timesArr) {
+      const enter = time[0];
+      const exit = time[1];
+
+      for (let i = exit - enter; i > 0; i--) {
+        const currentHour = exit - i;
+        if (!dayTimes[currentHour]) {
+          dayTimes[currentHour] = 1;
+        } else {
+          dayTimes[currentHour] = ++dayTimes[currentHour];
+        }
+      }
+    }
+
+    for (let hour in dayTimes) {
+      maxHour = Math.max(maxHour, dayTimes[hour]);
+    }
+    return maxHour;
   };
 
   return (
