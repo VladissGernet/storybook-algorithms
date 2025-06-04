@@ -66,12 +66,57 @@ const General5 = () => {
   //   return maxHour;
   // };
 
-  const countMaxPeople = (timesArr) => {
-    if (timesArr && timesArr.length === false) {
+  // Решение из гайда.
+  const compareEntries = (left, right) => {
+    // Выход раньше входа в то же время
+    if (left.time === right.time) {
+      return left.isEntering ? 1 : -1;
+    }
+
+    return left.time - right.time;
+  };
+
+  const countMaxPeople = (input) => {
+    if (input && input.length === false) {
       return 0;
     }
 
-    return 0;
+    /*
+      Если перекладывать это решение в код, то для начала нам нужно преобразовать данные в такой
+      формат событий «прохода через турникеты». Например, возьмём следующую структуру объекта:
+
+      {
+        time: 0,
+        isEntering: true, // если в этот момент человек входил — true, выходил — false
+      }
+      И перегоним наблюдения системы в него. Это займет у нас O(n) времени.
+    */
+
+    const entries = [];
+
+    for (let [enteringTime, leavingTime] of input) {
+      entries.push({
+        time: enteringTime,
+        isEntering: true,
+      });
+
+      entries.push({
+        time: leavingTime,
+        isEntering: false,
+      });
+    }
+
+    entries.sort(compareEntries);
+
+    let currentCount = 0;
+    let maxCount = 0;
+
+    for (let { isEntering } of entries) {
+      currentCount += isEntering ? 1 : -1;
+      maxCount = Math.max(currentCount, maxCount);
+    }
+
+    return maxCount;
   };
 
   return (
