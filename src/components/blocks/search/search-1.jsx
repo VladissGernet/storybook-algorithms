@@ -19,30 +19,53 @@ const Search1 = () => {
     "Юкка",
   ];
 
+  // Мое решение не подходило, потому что:
+  // 1.  Рекомендуется переписать код с использованием двух переменных для границ поиска.
+  // 2. Баг, когда слова нет в списке, то цикл бесконечно пытается найти.
+
+  // const binarySearch = (plants, plant) => {
+  //   let currentIndex = plants.length;
+  //   if (currentIndex === 0) {
+  //     return null;
+  //   }
+
+  //   let binaryArray = [1, currentIndex];
+  //   let counter = 0;
+
+  //   while (currentIndex > 0 && counter < 30) {
+  //     counter++;
+  //     currentIndex = Math.floor(
+  //       (binaryArray[0] + binaryArray[binaryArray.length - 1]) / 2
+  //     );
+
+  //     if (plants[currentIndex] === plant) {
+  //       return currentIndex;
+  //     } else if (plant > plants[currentIndex]) {
+  //       binaryArray = [currentIndex, plants.length];
+  //     } else if (plant < plants[currentIndex]) {
+  //       binaryArray = [0, currentIndex];
+  //     }
+  //   }
+  //   return null;
+  // };
+
+  // Асиптотическая сложность O(log n).
   const binarySearch = (plants, plant) => {
-    let currentIndex = plants.length;
-    if (currentIndex === 0) {
-      return null;
-    }
+    // Левая и правая границы поиска.
+    let left = 0;
+    let right = plants.length - 1;
 
-    let binaryArray = [1, currentIndex];
-    let counter = 0;
+    while (left <= right) {
+      let mid = Math.floor((left + right) / 2);
 
-    while (currentIndex > 0 && counter < 30) {
-      counter++;
-      currentIndex = Math.floor(
-        (binaryArray[0] + binaryArray[binaryArray.length - 1]) / 2
-      );
-
-      if (plants[currentIndex] === plant) {
-        return currentIndex;
-      } else if (plant > plants[currentIndex]) {
-        binaryArray = [currentIndex, plants.length];
-      } else if (plant < plants[currentIndex]) {
-        binaryArray = [0, currentIndex];
+      if (plants[mid] === plant) {
+        return mid;
+      } else if (plant > plants[mid]) {
+        left = mid + 1;
+      } else if (plant < plants[mid]) {
+        right = mid - 1;
       }
     }
-
     return null;
   };
 
