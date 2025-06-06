@@ -18,39 +18,30 @@ const Search1 = () => {
     "Шафран",
     "Юкка",
   ];
-  /*
-    Написать бинарный поиск.
-
-    binarySearch(plants, "Пион") => 5
-    binarySearch(plants, "Роза") => null
-  */
 
   const binarySearch = (plants, plant) => {
-    let currentLength = plants.length;
-    console.log("Хризантема" > "Пион");
+    let currentIndex = plants.length;
+    if (currentIndex === 0) {
+      return null;
+    }
 
-    // console.log(currentLength);
+    let binaryArray = [1, currentIndex];
+    let counter = 0;
 
-    /*
-      План решения задачи бинарным поиском:
-      0. Преверяю длину массива, если 0 то return null.
+    while (currentIndex > 0 && counter < 30) {
+      counter++;
+      currentIndex = Math.floor(
+        (binaryArray[0] + binaryArray[binaryArray.length - 1]) / 2
+      );
 
-      1. Берем длину массива и сохраняю в let(Будем менять это значение в дальнейшем). Также создаю массив
-      из двух значений: начало и конец отобранных значений с фиксацией 0 - начало полученного массива и plants.length - 1 - конец.
-
-      2. Берем средний элемент, поделив длину массива на 2 с отметанием остатка, тем самым всегда уходим левее.
-
-      3. Бинарный поиск. Сравниваем СЛОВО Булевыми (!!!!) сравнениями по бинарному поиску с помощью цикла. (Попробовать рекурсией еще.)
-        3.1. a === b ? Слово искомого равно сравниваемому слову?
-          3.1.1. Да. Если совпало, то тогда - return индекса этого слова.
-
-        3.2. a > b ?. Искомое слово больше сравниваемого?
-          3.1.1. Да. Смотрим правую часть, а левую отметаем. Массив значений обновляем.
-          3.1.2. Нет. Смотрим леву часть, а правую отметаем. Массив значений обновляем.
-
-      4. Возврат к пункту 2 с левой или правой частью массива до тех пор, пока не найдем нужный элемент.
-
-    */
+      if (plants[currentIndex] === plant) {
+        return currentIndex;
+      } else if (plant > plants[currentIndex]) {
+        binaryArray = [currentIndex, plants.length];
+      } else if (plant < plants[currentIndex]) {
+        binaryArray = [0, currentIndex];
+      }
+    }
 
     return null;
   };
@@ -58,9 +49,16 @@ const Search1 = () => {
   return (
     <div>
       <h1>Пример</h1>
-
+      <p>
+        Напишем простенький бинарный поиск на примере из предыдущей статьи. На
+        входе будем иметь отсортированный в алфавитном порядке список из
+        растений. Напишем функцию, которая будет бинарным поиском искать позицию
+        переданного в неё растения
+      </p>
       <Tester result={binarySearch(plants, "Пион")} answer={5} />
-      {/* <Tester result={binarySearch(plants, "Роза")} answer={null} /> */}
+      <Tester result={binarySearch(plants, "Роза")} answer={null} />
+      <Tester result={binarySearch(plants, "Аспарагус")} answer={0} />
+      <Tester result={binarySearch(plants, "Юкка")} answer={9} />
     </div>
   );
 };
