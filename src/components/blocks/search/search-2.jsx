@@ -124,13 +124,9 @@ const Search2 = () => {
       Ваша задача — реализовать функцию для поиска по таблице лидеров, которая на вход
       принимает количество очков и непосредственно таблицу, а возвращает объект:
     */
-    /*
-    Добавить реализацию возврата null.
-  */
-    // return {
-    //   league: 2,
-    //   placement: 2,
-    // };
+
+    console.log(points, table);
+
     return null;
   };
 
@@ -225,10 +221,6 @@ const Search2 = () => {
           league: 2,
           placement: 2,
         }}
-      />
-      <TesterSearch2
-        result={searchByLeaderboard(322, testDataInitial)}
-        answer={null}
       />
     </div>
   );

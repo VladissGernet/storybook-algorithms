@@ -5,8 +5,6 @@ const TesterSearch2 = ({ result, answer }) => {
 
   if (!result || !answer) {
     if (result !== answer) {
-      console.log(result, answer);
-
       if (result === null) {
         text = `Тест не пройден! Результат равен null.`;
       } else if (answer === null) {
