@@ -2,6 +2,8 @@ import React from "react";
 
 import { TesterSearch2 } from "../tester/tester-search-2";
 
+import { Tester } from "../tester/tester";
+
 const testDataInitial = [
   [
     {
@@ -100,13 +102,40 @@ const testDataFinal = [
   ],
 ];
 
+const arr = [0, 1, 2, 3, 4, 5, 6, 7, 10, 15, 40, 50, 76, 79, 90];
+
+const binarySearch = (arr, value) => {
+  let left = 0;
+  let right = arr.length - 1;
+
+  while (left <= right) {
+    const mid = Math.floor((left + right) / 2);
+
+    if (value === arr[mid]) {
+      return mid;
+    } else if (value < arr[mid]) {
+      right = mid - 1;
+    } else if (value > arr[mid]) {
+      left = mid + 1;
+    }
+  }
+  return null;
+};
+
 const Search2 = () => {
   const searchByLeaderboard = (points, table) => {
-    // return null;
+    /*
+      Ваша задача — реализовать функцию для поиска по таблице лидеров, которая на вход
+      принимает количество очков и непосредственно таблицу, а возвращает объект:
+    */
+    /*
+    Добавить реализацию возврата null.
+  */
     return {
       league: 1,
       placement: 1,
     };
+    // return null;
   };
 
   return (
@@ -194,13 +223,17 @@ const Search2 = () => {
           данных может быть любым.
         </p>
       </details>
-      <TesterSearch2
-        result={searchByLeaderboard()}
+      {/* <TesterSearch2
+        result={searchByLeaderboard(322, testDataInitial)}
         answer={{
-          league: 1,
-          placement: 1,
+          league: 2,
+          placement: 2,
         }}
-      />
+      /> */}
+      <Tester result={0} answer={1} />
+      <Tester result={0} answer={1} />
+      <Tester result={0} answer={1} />
+      <Tester result={0} answer={1} />
     </div>
   );
 };

@@ -1,5 +1,8 @@
 import React from "react";
 const TesterSearch2 = ({ result, answer }) => {
+  /*
+    Добавить реализацию возврата null.
+  */
   let { league: leagueResult, placement: placementResult } = result;
   let { league: leagueAnswer, placement: placementAnswer } = answer;
 
