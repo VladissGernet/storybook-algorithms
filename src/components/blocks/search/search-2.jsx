@@ -107,11 +107,11 @@ const binarySearch = (arr, value) => {
   while (left <= right) {
     const mid = Math.floor((left + right) / 2);
 
-    if (value === arr[mid]) {
+    if (value === arr[mid].leaguePoints) {
       return mid;
-    } else if (value < arr[mid]) {
+    } else if (value < arr[mid].leaguePoints) {
       right = mid - 1;
-    } else if (value > arr[mid]) {
+    } else if (value > arr[mid].leaguePoints) {
       left = mid + 1;
     }
   }
@@ -120,13 +120,26 @@ const binarySearch = (arr, value) => {
 
 const Search2 = () => {
   const searchByLeaderboard = (points, table) => {
-    /*
-      Ваша задача — реализовать функцию для поиска по таблице лидеров, которая на вход
-      принимает количество очков и непосредственно таблицу, а возвращает объект:
-    */
-
-    console.log(points, table);
-
+    // Прохожу по всем лигам таблицы. Асимтотическая сложность O(n).
+    for (let i = 0; i <= table.length - 1; i++) {
+      /*
+        В каждой лиге ищу бинарным поиском человека с искомым значением очков.
+        Асимтотическая сложность бинарного поиска O(logn).
+      */
+      const binarySearchResult = binarySearch(table[i], points);
+      /*
+        Если первый попавшейся человек был найден с нужным значением очков, то возвращаю объект.
+        "league" — это номер лиги (люди считают с единицы, в отличие от индексации массива). Корректирую прибавлением 1.
+        "placement" — место в лиге (с конца, ведь лучшие игроки в массиве лиги идут после худших).
+      */
+      if (binarySearchResult !== null) {
+        const returnResult = {
+          league: i + 1,
+          placement: table[i].length - binarySearchResult,
+        };
+        return returnResult;
+      }
+    }
     return null;
   };
 
@@ -220,6 +233,13 @@ const Search2 = () => {
         answer={{
           league: 2,
           placement: 2,
+        }}
+      />
+      <TesterSearch2
+        result={searchByLeaderboard(931, testDataFinal)}
+        answer={{
+          league: 3,
+          placement: 3,
         }}
       />
     </div>
