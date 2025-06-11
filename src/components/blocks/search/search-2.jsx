@@ -100,6 +100,26 @@ const testDataFinal = [
   ],
 ];
 
+/*
+  Анализ асимптотической сложности:
+  Ваше решение:
+
+  Поиск по всем лигам через цикл: O(k), где k — количество лиг
+
+  Для каждой лиги выполняется бинарный поиск: O(log m), где m — игроков в лиге
+
+  Итоговая сложность: O(k * log m)
+
+  Решение из гайда:
+
+  Бинарный поиск лиги: O(log k)
+
+  Бинарный поиск внутри лиги: O(log m)
+
+  Итоговая сложность: O(log k + log m)
+*/
+
+// Моё решение.
 const binarySearch = (arr, value) => {
   let left = 0;
   let right = arr.length - 1;
@@ -117,32 +137,31 @@ const binarySearch = (arr, value) => {
   }
   return null;
 };
+const searchByLeaderboard = (points, table) => {
+  // Прохожу по всем лигам таблицы. Асимтотическая сложность O(n).
+  for (let i = 0; i <= table.length - 1; i++) {
+    /*
+      В каждой лиге ищу бинарным поиском человека с искомым значением очков.
+      Асимтотическая сложность бинарного поиска O(logn).
+    */
+    const binarySearchResult = binarySearch(table[i], points);
+    /*
+      Если первый попавшейся человек был найден с нужным значением очков, то возвращаю объект.
+      "league" — это номер лиги (люди считают с единицы, в отличие от индексации массива). Корректирую прибавлением 1.
+      "placement" — место в лиге (с конца, ведь лучшие игроки в массиве лиги идут после худших).
+    */
+    if (binarySearchResult !== null) {
+      const returnResult = {
+        league: i + 1,
+        placement: table[i].length - binarySearchResult,
+      };
+      return returnResult;
+    }
+  }
+  return null;
+};
 
 const Search2 = () => {
-  const searchByLeaderboard = (points, table) => {
-    // Прохожу по всем лигам таблицы. Асимтотическая сложность O(n).
-    for (let i = 0; i <= table.length - 1; i++) {
-      /*
-        В каждой лиге ищу бинарным поиском человека с искомым значением очков.
-        Асимтотическая сложность бинарного поиска O(logn).
-      */
-      const binarySearchResult = binarySearch(table[i], points);
-      /*
-        Если первый попавшейся человек был найден с нужным значением очков, то возвращаю объект.
-        "league" — это номер лиги (люди считают с единицы, в отличие от индексации массива). Корректирую прибавлением 1.
-        "placement" — место в лиге (с конца, ведь лучшие игроки в массиве лиги идут после худших).
-      */
-      if (binarySearchResult !== null) {
-        const returnResult = {
-          league: i + 1,
-          placement: table[i].length - binarySearchResult,
-        };
-        return returnResult;
-      }
-    }
-    return null;
-  };
-
   return (
     <div>
       <h1>Задача: Онлайн игра «Удар легенд»</h1>
