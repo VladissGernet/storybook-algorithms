@@ -11,5 +11,5 @@ export const SearchBinary = () => (
 );
 
 export default {
-  title: "Разделяй и властвуй.",
+  title: "Разделяй и властвуй",
 };
