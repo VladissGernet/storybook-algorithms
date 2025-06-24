@@ -30,6 +30,55 @@ const DivideAndConquer2 = () => {
 
     */
 
+  /*
+
+  Задача из learn.javascript
+      Напишите функцию printList(list), которая выводит элементы списка по одному.
+
+Сделайте два варианта решения: используя цикл и через рекурсию.
+
+Как лучше: с рекурсией или без?
+    */
+
+  const list = {
+    value: 1,
+    next: {
+      value: 2,
+      next: {
+        value: 3,
+        next: {
+          value: 4,
+          next: null,
+        },
+      },
+    },
+  };
+
+  // const printList = (list) => {
+  //   if (list.next === null) {
+  //     console.log(list.value, "done");
+  //     return null;
+  //   }
+  //   console.log(list.value);
+
+  //   list = list.next;
+
+  //   return printList(list);
+  // };
+
+  let counter = 10;
+
+  const printList = (list) => {
+    while (list.next !== null && counter > 0) {
+      counter--;
+      console.log("list.value", list.value);
+      list = list.next;
+    }
+    console.log(list.value, "last");
+  };
+
+  printList(list);
+
   // const fib = (index) => {
   //   if (index === 1) {
   //     return 0;
