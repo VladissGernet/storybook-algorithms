@@ -30,9 +30,75 @@ const DivideAndConquer2 = () => {
 
     */
 
-  const fib = (n) => {
-    return n - 1 + (n - 2);
+  // const fib = (index) => {
+  //   if (index === 1) {
+  //     return 0;
+  //   } else if (index === 2) {
+  //     return 1;
+  //   }
+  //   let fibArr = [0, 1];
+
+  //   for (let i = 2; i <= index; i++) {
+  //     fibArr.push(fibArr[i - 1] + fibArr[i - 2]);
+  //   }
+  //   console.log(fibArr);
+
+  //   return fibArr[fibArr.length - 1];
+  // };
+
+  /*
+    В вашем решении вы используете массив для хранения уже вычисленных чисел, что значительно эффективнее.
+
+Это пример мемоизации — сохранения промежуточных результатов.
+
+Ваш подход избегает повторных вычислений и работает за линейное время O(n).
+  */
+  const fib = (index, fibArr = [0, 1]) => {
+    if (index === 1) {
+      return 0;
+    } else if (index === 2) {
+      return 1;
+    }
+
+    if (index === fibArr.length - 1) {
+      return fibArr[fibArr.length - 1];
+    }
+    fibArr.push(fibArr[fibArr.length - 1] + fibArr[fibArr.length - 2]);
+
+    return fib(index, fibArr);
   };
+
+  /*
+  Решение из гайда:
+
+    function fibonacci(index) {
+      if (index === 1) {
+        return 0;
+      }
+
+      if (index === 2) {
+        return 1;
+      }
+
+      return fibonacci(index - 1) + fibonacci(index - 2);
+    }
+
+    Как работает двойной вызов fibonacci(index - 1) + fibonacci(index - 2)?
+Если index больше 2, функция возвращает сумму двух чисел Фибоначчи с индексами index - 1 и index - 2.
+
+Для вычисления каждого из этих чисел функция рекурсивно вызывает себя.
+
+Таким образом, функция разбивает задачу на две более простые: найти два предыдущих числа Фибоначчи.
+
+Каждый из этих вызовов в свою очередь вызывает функцию ещё раз, пока не дойдёт до базовых случаев index === 1 или index === 2.
+
+Недостаток решения из гайда
+Оно очень неэффективно из-за повторных вычислений.
+
+Например, для fibonacci(5) вычисление fibonacci(3) происходит дважды.
+
+Количество вызовов растёт экспоненциально с увеличением index.
+  */
 
   return (
     <div>
@@ -44,11 +110,11 @@ const DivideAndConquer2 = () => {
         двух предыдущих.
       </p>
       <Tester result={fib(1)} answer={0} />
-      {/* <Tester result={0} answer={1} />
-      <Tester result={0} answer={144} />
-      <Tester result={0} answer={2} />
-      <Tester result={0} answer={13} />
-      <Tester result={0} answer={5527939700884757} /> */}
+      <Tester result={fib(2)} answer={1} />
+      <Tester result={fib(3)} answer={2} />
+      <Tester result={fib(7)} answer={13} />
+      <Tester result={fib(13)} answer={233} />
+      <Tester result={fib(77)} answer={5527939700884757} />
     </div>
   );
 };
