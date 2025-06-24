@@ -18,9 +18,21 @@ const arr3 = [1, 2, [3, 4]];
 const arr4 = [1, 2, [3, 4, [5, 6, [7, 8, [9, 10]]]]];
 
 const flatArray = (arr) => {
-  let counter = 10;
+  let result = [];
 
-  return [];
+  const initFlat = (arr) => {
+    for (let i = 0; i <= arr.length - 1; i++) {
+      if (Array.isArray(arr[i])) {
+        initFlat(arr[i]);
+      } else {
+        result.push(arr[i]);
+      }
+    }
+  };
+
+  initFlat(arr);
+
+  return result;
 };
 
 /*
@@ -33,7 +45,6 @@ const flatArray = (arr) => {
 };
 
 console.log(factorial(5));
-*/
 
 /*
   Практика рекурсии. \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -84,7 +95,31 @@ function factorial(n) {
   return n ? n * factorial(n - 1) : 1;
 }
 
+№3
+Последовательность чисел Фибоначчи определяется формулой Fn = Fn-1 + Fn-2. То есть, следующее число получается как сумма двух предыдущих.
+
+Первые два числа равны 1, затем 2(1+1), затем 3(1+2), 5(2+3) и так далее: 1, 1, 2, 3, 5, 8, 13, 21....
+
+Числа Фибоначчи тесно связаны с золотым сечением и множеством природных явлений вокруг нас.
+
+Напишите функцию fib(n) которая возвращает n-е число Фибоначчи.
+
+Пример работы:
+
+function fib(n) {  ваш код  }
+
+alert(fib(3)); // 2
+alert(fib(7)); // 13
+alert(fib(77)); // 5527939700884757
+P.S. Все запуски функций из примера выше должны работать быстро. Вызов fib(77) должен занимать не более доли секунды.
+
 */
+
+// const fib = (n) => {
+//   return n - 1 + (n - 2);
+// };
+
+// console.log(fib(3));
 
 /*
   Конец практики рекурсии.\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -98,16 +133,16 @@ const DivideAndConquer1 = () => {
         Есть массив с элементами и другими массивами — вложенность может быть
         любой. Нужно устранить вложенность, сохранив очерёдность элементов.
       </p>
-      {/* <TesterDivideAndConquer1 result={flatArray(arr1)} answer={[]} /> */}
+      <TesterDivideAndConquer1 result={flatArray(arr1)} answer={[]} />
       <TesterDivideAndConquer1
         result={flatArray(arr2)}
         answer={[1, 5, 5, 10]}
       />
-      {/* <TesterDivideAndConquer1 result={flatArray(arr3)} answer={[1, 2, 3, 4]} />
+      <TesterDivideAndConquer1 result={flatArray(arr3)} answer={[1, 2, 3, 4]} />
       <TesterDivideAndConquer1
         result={flatArray(arr4)}
         answer={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
-      /> */}
+      />
     </div>
   );
 };
