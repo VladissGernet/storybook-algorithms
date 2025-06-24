@@ -4,6 +4,7 @@ import { StyledPage } from "/src/components/blocks/start/styled";
 
 import { DivideAndConquer1 } from "./divide-and-conquer-1";
 import { DivideAndConquer2 } from "./divide-and-conquer-2";
+import { DivideAndConquer3 } from "./divide-and-conquer-3";
 
 export const SearchBinary = () => (
   <StyledPage>
@@ -14,6 +15,12 @@ export const SearchBinary = () => (
 export const fibonacciNumbers = () => (
   <StyledPage>
     <DivideAndConquer2 />
+  </StyledPage>
+);
+
+export const recursiveBinarySearch = () => (
+  <StyledPage>
+    <DivideAndConquer3 />
   </StyledPage>
 );
 
