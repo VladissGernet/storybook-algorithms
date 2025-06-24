@@ -40,19 +40,19 @@ const DivideAndConquer2 = () => {
 Как лучше: с рекурсией или без?
     */
 
-  const list = {
-    value: 1,
-    next: {
-      value: 2,
-      next: {
-        value: 3,
-        next: {
-          value: 4,
-          next: null,
-        },
-      },
-    },
-  };
+  // const list = {
+  //   value: 1,
+  //   next: {
+  //     value: 2,
+  //     next: {
+  //       value: 3,
+  //       next: {
+  //         value: 4,
+  //         next: null,
+  //       },
+  //     },
+  //   },
+  // };
 
   // const printList = (list) => {
   //   if (list.next === null) {
