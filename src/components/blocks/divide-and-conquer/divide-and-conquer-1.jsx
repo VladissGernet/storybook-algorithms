@@ -17,20 +17,14 @@ const arr2 = [[1, 5], 5, 10];
 const arr3 = [1, 2, [3, 4]];
 const arr4 = [1, 2, [3, 4, [5, 6, [7, 8, [9, 10]]]]];
 
-const flatArray = (arr) => {
-  let result = [];
-
-  const initFlat = (arr) => {
-    for (let i = 0; i <= arr.length - 1; i++) {
-      if (Array.isArray(arr[i])) {
-        initFlat(arr[i]);
-      } else {
-        result.push(arr[i]);
-      }
+const flatArray = (arr, result = []) => {
+  for (let i = 0; i <= arr.length - 1; i++) {
+    if (Array.isArray(arr[i])) {
+      flatArray(arr[i], result);
+    } else {
+      result.push(arr[i]);
     }
-  };
-
-  initFlat(arr);
+  }
 
   return result;
 };
