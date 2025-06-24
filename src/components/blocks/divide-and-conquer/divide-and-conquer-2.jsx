@@ -40,19 +40,19 @@ const DivideAndConquer2 = () => {
 Как лучше: с рекурсией или без?
     */
 
-  // const list = {
-  //   value: 1,
-  //   next: {
-  //     value: 2,
-  //     next: {
-  //       value: 3,
-  //       next: {
-  //         value: 4,
-  //         next: null,
-  //       },
-  //     },
-  //   },
-  // };
+  const list = {
+    value: 1,
+    next: {
+      value: 2,
+      next: {
+        value: 3,
+        next: {
+          value: 4,
+          next: null,
+        },
+      },
+    },
+  };
 
   // const printList = (list) => {
   //   if (list.next === null) {
@@ -79,6 +79,52 @@ const DivideAndConquer2 = () => {
 
   // printList(list);
 
+  /*
+    Выведите односвязный список из предыдущего задания Вывод односвязного списка в обратном порядке.
+  */
+  // в рекурсиях есть стек. Если сделать так, чтобы если list.next !== null, то отложить выполение лога и идти дальше в глубь, до тех пор
+  // пока не дойдет рекурсия до дна и со дна начинать закрывать функции и по очереди вызывать логи.
+  /*
+    const printListReverseRecursion = (list) => {
+    if (list.next === null) {
+      console.log(list.value, "Конец списка.");
+      return null;
+    }
+    printListReverseRecursion(list.next);
+    console.log(list.value);
+    return null;
+  };
+
+  printListReverseRecursion(list);
+*/
+
+  /*
+    const printListReverseCycle = (list) => {
+    let component = list;
+    let listValues = [];
+
+    while (component.next !== null) {
+      listValues.push(component.value);
+      component = component.next;
+    }
+    listValues.push(component.value);
+
+    for (let i = listValues.length - 1; i >= 0; i--) {
+      console.log(listValues[i]);
+    }
+  };
+
+  printListReverseCycle(list);
+*/
+
+  /*
+    В вашем решении вы используете массив для хранения уже вычисленных чисел, что значительно эффективнее.
+
+Это пример мемоизации — сохранения промежуточных результатов.
+
+Ваш подход избегает повторных вычислений и работает за линейное время O(n).
+  */
+
   // const fib = (index) => {
   //   if (index === 1) {
   //     return 0;
@@ -95,13 +141,6 @@ const DivideAndConquer2 = () => {
   //   return fibArr[fibArr.length - 1];
   // };
 
-  /*
-    В вашем решении вы используете массив для хранения уже вычисленных чисел, что значительно эффективнее.
-
-Это пример мемоизации — сохранения промежуточных результатов.
-
-Ваш подход избегает повторных вычислений и работает за линейное время O(n).
-  */
   const fib = (index, fibArr = [0, 1]) => {
     if (index === 1) {
       return 0;
