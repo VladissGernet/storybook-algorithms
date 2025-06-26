@@ -1,4 +1,5 @@
 import React from "react";
+
 const TesterDivideAndConquer1 = ({ result, answer }) => {
   let textColor = "salmon";
   let text = `Тест не пройден! ${result} не равно ${answer}`;
