@@ -31,8 +31,15 @@ const TesterDivideAndConquer4 = ({ resultObj, points, answerObj }) => {
   } else {
     return (
       <p style={pStyleSuccess}>
-        Ваш счет — {points}. Вы могли бы играть в гильдии {resultObj.guild} и
-        занять там {resultObj.placement} место
+        Ваш счет — {points}. Вы могли бы играть в гильдии{" "}
+        <b style={{ backgroundColor: "darkgrey", padding: 5 }}>
+          {resultObj.guild}
+        </b>{" "}
+        и занять там
+        <b style={{ backgroundColor: "darkgrey", padding: 5 }}>
+          {resultObj.placement}
+        </b>{" "}
+        место
       </p>
     );
   }

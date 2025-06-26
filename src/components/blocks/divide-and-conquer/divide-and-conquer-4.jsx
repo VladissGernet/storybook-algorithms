@@ -120,8 +120,19 @@ const testData2 = [
   ],
 ];
 
-const findGuildAndPlacement = (points) => {
-  return { guild: "goldfish", placement: 1 };
+const findGuildAndPlacement = (points, data) => {
+  console.log(points);
+  console.log(data);
+
+  /*
+    Алгоритм, решающий эту задачу, похож на бинарный поиск, но отбрасывать
+    из наших данных на каждом шаге мы сможем только одну четверть, а не половину.
+    Попробуйте найти в тестовых данных какой-нибудь счёт и посмотреть,
+    какую из сторон матрицы вы совсем не рассматриваете.
+  */
+
+  // return { guild: "goldfish", placement: 1 };
+  return {};
 };
 
 const DivideAndConquer4 = () => {
@@ -153,7 +164,7 @@ const DivideAndConquer4 = () => {
         посмотрите на новую модель данных игроков в таблице):
       </p>
       <TesterDivideAndConquer4
-        resultObj={findGuildAndPlacement(53)}
+        resultObj={findGuildAndPlacement(53, testData2)}
         points={53}
         answerObj={{ guild: "goldfish", placement: 1 }}
       />
