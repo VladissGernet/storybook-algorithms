@@ -11,6 +11,9 @@ const pStyleSuccess = {
 };
 
 const TesterDivideAndConquer4 = ({ resultObj, points, answerObj }) => {
+  if (!resultObj) {
+    return <p style={pStyleError}>Результат = null.</p>;
+  }
   // Сравнение результата с правильным ответом.
   if (
     resultObj.guild !== answerObj.guild &&
