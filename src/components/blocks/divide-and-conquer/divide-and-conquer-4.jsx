@@ -119,7 +119,7 @@ const testData2 = [
     },
   ],
 ];
-
+// Моё решение O(M + log N).
 const findGuildAndPlacement = (points, data) => {
   // Левая и правая граница рекурсии.
   let dataBorders = {
@@ -189,6 +189,37 @@ const findGuildAndPlacement = (points, data) => {
   return initFind(dataBorders);
 };
 
+// Решение из гайда "Разделяй и властвуй" ("Вivide and Сonquer").
+const searchSubtask = (
+  leaderboard,
+  leaguePoints,
+  topBorder,
+  leftBorder,
+  bottomBorder,
+  rightBorder
+) => {
+  return null;
+};
+
+const searchScore = (leaderboard, leaguePoints) => {
+  // Если матрица пуста, то и возвращать мы будем null.
+  if (!(leaderboard.length && leaderboard[0].length)) {
+    return null;
+  }
+
+  const bottomBorder = leaderboard.length - 1;
+  const rightBorder = leaderboard[0].length - 1;
+
+  return searchSubtask(
+    leaderboard,
+    leaguePoints,
+    0,
+    0,
+    bottomBorder,
+    rightBorder
+  );
+};
+
 const DivideAndConquer4 = () => {
   return (
     <div>
@@ -236,6 +267,21 @@ const DivideAndConquer4 = () => {
         resultObj={findGuildAndPlacement(64, testData2)}
         points={64}
         answerObj={{ guild: "bream", placement: 4 }}
+      />
+      <TesterDivideAndConquer4
+        resultObj={findGuildAndPlacement(568, testData2)}
+        points={568}
+        answerObj={{ guild: "goldfish", placement: 3 }}
+      />
+      <TesterDivideAndConquer4
+        resultObj={findGuildAndPlacement(18, testData2)}
+        points={18}
+        answerObj={{ guild: "goldfish", placement: 4 }}
+      />
+      <TesterDivideAndConquer4
+        resultObj={findGuildAndPlacement(1045, testData2)}
+        points={1045}
+        answerObj={{ guild: "catfish", placement: 1 }}
       />
     </div>
   );
