@@ -121,18 +121,72 @@ const testData2 = [
 ];
 
 const findGuildAndPlacement = (points, data) => {
-  console.log(points);
-  console.log(data);
+  // Левая и правая граница рекурсии.
+  let dataBorders = {
+    left: 0,
+    right: data.length - 1,
+  };
 
-  /*
-    Алгоритм, решающий эту задачу, похож на бинарный поиск, но отбрасывать
-    из наших данных на каждом шаге мы сможем только одну четверть, а не половину.
-    Попробуйте найти в тестовых данных какой-нибудь счёт и посмотреть,
-    какую из сторон матрицы вы совсем не рассматриваете.
-  */
+  // Бинарный поиск текущей гильдии.
+  const searchBinaryRecursive = (guild, left = 0, right = guild.length - 1) => {
+    // Базовый случай бинарного рекурсионного поиска.
+    if (left > right) {
+      return null;
+    }
 
-  // return { guild: "goldfish", placement: 1 };
-  return {};
+    const mid = Math.floor((left + right) / 2);
+
+    if (guild[mid].leaguePoints === points) {
+      // Возвращаем объект.
+      return { guild: guild[mid].guild, placement: guild.length - mid };
+    }
+
+    if (guild[mid].leaguePoints < points) {
+      left = mid + 1;
+    } else if (guild[mid].leaguePoints > points) {
+      right = mid - 1;
+    }
+
+    return searchBinaryRecursive(guild, left, right);
+  };
+
+  const initFind = (dataBorders) => {
+    let { left, right } = dataBorders;
+
+    // Базовый случай окончания рекурсии.
+    if (left > right) {
+      return {};
+    }
+
+    // Текущий массив лидеров в гильдии.
+    const guild = data[dataBorders.left];
+
+    // Минимальное количество очков в текущей гильдии.
+    const minGuildPoints = guild[0].leaguePoints;
+    // Второй базовый случай, если minGuildPoints больше points, то ничего не найдено.
+    if (minGuildPoints > points) {
+      return {};
+    }
+
+    // Если максимальное количество очков в текущей гильдии меньше искомого points, то это сразу шаг вправо.
+    const maxGuildPoints = guild[guild.length - 1].leaguePoints;
+    if (maxGuildPoints < points) {
+      return initFind({ left: ++left, right });
+    }
+
+    // Бинарный поиск текущей гильдии.
+    const result = searchBinaryRecursive(guild);
+
+    if (result) {
+      return result;
+    }
+
+    // Каждый проход смешает вправо шаг leftDataBorder.
+    return initFind({ left: ++left, right });
+  };
+
+  // Активация рекурсии.
+  return initFind(dataBorders);
 };
 
 const DivideAndConquer4 = () => {
@@ -164,9 +218,24 @@ const DivideAndConquer4 = () => {
         посмотрите на новую модель данных игроков в таблице):
       </p>
       <TesterDivideAndConquer4
-        resultObj={findGuildAndPlacement(53, testData2)}
+        resultObj={findGuildAndPlacement(53, testData1)}
         points={53}
         answerObj={{ guild: "goldfish", placement: 1 }}
+      />
+      <TesterDivideAndConquer4
+        resultObj={findGuildAndPlacement(23, testData1)}
+        points={23}
+        answerObj={{ guild: "seabass", placement: 2 }}
+      />
+      <TesterDivideAndConquer4
+        resultObj={findGuildAndPlacement(4, testData2)}
+        points={4}
+        answerObj={{ guild: "seabass", placement: 4 }}
+      />
+      <TesterDivideAndConquer4
+        resultObj={findGuildAndPlacement(64, testData2)}
+        points={64}
+        answerObj={{ guild: "bream", placement: 4 }}
       />
     </div>
   );
