@@ -14,6 +14,7 @@ const config = {
     "@storybook/addon-interactions",
     "@storybook/preset-scss",
   ],
+    staticDirs: ['../public'],
   "framework": {
     "name": "@storybook/react-webpack5",
     "options": {}
