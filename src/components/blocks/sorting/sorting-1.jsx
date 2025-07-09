@@ -237,6 +237,19 @@ const quickSelect = (arr, k) => {
 // console.log(testData6, "array to find");
 
 // quickSelect(testData6, Math.floor(testData6.length / 2));
+
+// Решение из гайда.
+
+const random = (min, max) => {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+
+const quickSort = (arr) => {
+  console.log(arr);
+  return arr;
+};
+
+quickSort(testData1);
 const Sorting1 = () => {
   return (
     <div>
