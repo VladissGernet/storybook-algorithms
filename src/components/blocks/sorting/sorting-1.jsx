@@ -26,7 +26,7 @@ const bubbleSort = (arr) => {
 };
 
 /*
-  Мое решение неудачное, по причинам:
+  Мое решение quickSortMySolution неудачное, по причинам:
   Использование новых массивов: Вы на каждом шаге создаёте новый массив (newArr), а результат сохраняете в resultArr.
   В классических реализациях чаще сортируют массив "на месте" (in-place), что экономит память.
 
@@ -147,7 +147,7 @@ const quickSortMySolution = (arr) => {
 };
 
 /*
-  Поиск медианы за линейное время в среднем.
+  Поиск quickSelect медианы за линейное время в среднем.
 
   1.Выберем индекс списка. Способ выбора не важен, на практике вполне подходит и случайный.
   Элемент с этим индексом называется опорным элементом (pivot).
@@ -234,13 +234,13 @@ const quickSelect = (arr, k) => {
   }
 };
 
-console.log(testData6, "array to find");
+// console.log(testData6, "array to find");
 
-quickSelect(testData6, Math.floor(testData6.length / 2));
+// quickSelect(testData6, Math.floor(testData6.length / 2));
 const Sorting1 = () => {
   return (
     <div>
-      <h1>Сортировка Пузырьком и Quick Sort</h1>
+      <h1>Сортировка Пузырьком, Quick Sort, Quick Select</h1>
       {/* <Tester result={quickSort(testData1).join(", ")} answer={"1, 2, 3, 5"} />
       <Tester result={quickSort(testData2).join(", ")} answer={"1, 2, 3"} />
       <Tester
