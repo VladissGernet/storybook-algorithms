@@ -174,106 +174,69 @@ const swap = (arr, i, j) => {
   arr[j] = temp;
 };
 
-// Нормализации трех элементов в массиве.
-const normalizeThreeElements = (arr) => {
-  const leftIndex = 0;
-  const midIndex = Math.floor(arr.length / 2);
-  const rightIndex = arr.length - 1;
-
-  if (arr[leftIndex] > arr[midIndex]) {
-    /*
-      Можно записать так:
-      [arr[leftIndex], arr[midIndex]] = [arr[midIndex], arr[leftIndex]];
-      Но решение ниже чуть эффективнее:
-    */
-    swap(arr, leftIndex, midIndex);
-  }
-  if (arr[leftIndex] > arr[rightIndex]) {
-    // [arr[leftIndex], arr[rightIndex]] = [arr[rightIndex], arr[leftIndex]];
-    swap(arr, leftIndex, rightIndex);
-  }
-  if (arr[midIndex] > arr[rightIndex]) {
-    // [arr[midIndex], arr[rightIndex]] = [arr[rightIndex], arr[midIndex]];
-    swap(arr, midIndex, rightIndex);
-  }
-  return arr;
-};
-
-/*
-  Пример корректного quickselect с медианой из трёх (JavaScript)
-js
-const swap = (arr, i, j) => {
-  const temp = arr[i];
-  arr[i] = arr[j];
-  arr[j] = temp;
-};
-
+//Медиана из трех
 const medianOfThree = (arr, left, right) => {
   const mid = Math.floor((left + right) / 2);
-  if (arr[left] > arr[mid]) swap(arr, left, mid);
-  if (arr[left] > arr[right]) swap(arr, left, right);
-  if (arr[mid] > arr[right]) swap(arr, mid, right);
-  // Теперь arr[mid] — медиана из трех
+  if (arr[left] > arr[mid]) {
+    swap(arr, left, mid);
+  }
+  if (arr[left] > arr[right]) {
+    swap(arr, left, right);
+  }
+  if (arr[mid] > arr[right]) {
+    swap(arr, mid, right);
+  }
   return arr[mid];
 };
 
-function quickselect(arr, k, left = 0, right = arr.length - 1) {
-  if (left === right) return arr[left];
+/*
+  Quickselect подходит не только для быстрого поиска медианы. 
+  Его основное назначение — это поиск k-го по величине 
+  (или k-го наименьшего/наибольшего) элемента в неупорядоченном списке 
+  (массиве).
+*/
+const quickSelect = (arr, k) => {
+  // Медиана длины изначального массива - k.
+  // Базовый случай рекурсии
+  if (arr.length === 1) {
+    console.log(arr[0], "result");
+    return arr[0];
+  }
 
-  const pivot = medianOfThree(arr, left, right);
+  // Выбор опорного элемента
+  const pivot = medianOfThree(arr, 0, arr.length - 1);
 
-  // Разбиение по pivot
-  let i = left;
-  let j = right;
+  // Разделение массива
+  // Элементы меньше или равные pivot
+  let lesserEls = [];
+  // Элементы строго большие, чем pivot,
+  let greaterEls = [];
+  let equalEls = [];
 
-  while (i <= j) {
-    while (arr[i] < pivot) i++;
-    while (arr[j] > pivot) j--;
-    if (i <= j) {
-      swap(arr, i, j);
-      i++;
-      j--;
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] <= pivot) {
+      lesserEls.push(arr[i]);
+    } else if (arr[i] > pivot) {
+      greaterEls.push(arr[i]);
+    } else {
+      equalEls.push(arr[i]);
     }
   }
 
-  // Теперь arr[left..j] <= pivot, arr[i..right] >= pivot
-
-  if (k - 1 <= j) {
-    return quickselect(arr, k, left, j);
+  if (k < lesserEls.length) {
+    // Искомый элемент в lesserEls
+    return quickSelect(lesserEls, k);
+  } else if (k < lesserEls.length + equalEls.length) {
+    return pivot;
+  } else {
+    // Искомый элемент в greaterEls
+    return quickSelect(greaterEls, k - lesserEls.length - equalEls.length);
   }
-  if (k - 1 >= i) {
-    return quickselect(arr, k, i, right);
-  }
-  return arr[j + 1];
-}
-
-// Пример использования:
-const testData6 = [9, 1, 0, 2, 3, 4, 6, 8, 7, 10, 5];
-const n = testData6.length;
-const median = quickselect(testData6.slice(), Math.floor(n / 2) + 1); // 6-й элемент
-*/
-
-// Поиск медианы
-const findMedianLinear = (arr, k, left = 0, right = arr.length - 1) => {
-  normalizeThreeElements(arr);
-  const pivot = arr[Math.floor(arr.length / 2)];
-  // const left = [];
-  // const right = [];
-
-  // for (let i = 0; i < arr.length; i++) {
-  //   if (arr[i] <= pivot) {
-  //     left.push(arr[i]);
-  //   } else if (arr[i] > pivot) {
-  //     right.push(arr[i]);
-  //   }
-  // }
-
-  console.log(left);
-  console.log(right);
 };
 
-findMedianLinear(testData6);
+console.log(testData6, "array to find");
 
+quickSelect(testData6, Math.floor(testData6.length / 2));
 const Sorting1 = () => {
   return (
     <div>
