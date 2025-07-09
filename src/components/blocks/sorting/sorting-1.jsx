@@ -6,6 +6,8 @@ const testData1 = [5, 3, 2, 1];
 const testData2 = [1, 2, 3];
 const testData3 = [1, 4, 6, 8, 7, 5, 3, 2, 9];
 const testData4 = [1, 4, 7, 8, 7, 7, 3, 2, 9];
+const testData5 = [9, 4, 7, 8, 1, 7, 3, 2, 2];
+const testData6 = [9, 1, 0, 2, 3, 4, 6, 8, 7, 10, 5];
 
 const bubbleSort = (arr) => {
   while (true) {
@@ -23,7 +25,20 @@ const bubbleSort = (arr) => {
   }
 };
 
-const quickSort = (arr) => {
+/*
+  Мое решение неудачное, по причинам:
+  Использование новых массивов: Вы на каждом шаге создаёте новый массив (newArr), а результат сохраняете в resultArr.
+  В классических реализациях чаще сортируют массив "на месте" (in-place), что экономит память.
+
+  Медиана как опорный элемент: Вы берёте элемент из середины как опорный (midIndex).
+  Это допустимо, но может приводить к неэффективности на уже отсортированных или почти отсортированных данных.
+  Обычно используют первый, последний или случайный элемент, либо медиану трёх для повышения устойчивости к худшим случаям.
+
+  Сложная логика с одинаковыми элементами: Вы явно учитываете количество элементов, равных опорному,
+  и распределяете их вручную. В большинстве реализаций достаточно просто определять "<", ">", "=" и корректно
+  разбивать массив на части.
+*/
+const quickSortMySolution = (arr) => {
   /*
     Решение задачи быстрая сортировка:
     Дополнительно реализовать оптимизацию, в которой будет фиксироватсья минимальный элемент и его индекс, и максимальный элемент с его индексом, тем самым
@@ -131,11 +146,139 @@ const quickSort = (arr) => {
   return resultArr;
 };
 
+/*
+  Поиск медианы за линейное время в среднем.
+
+  1.Выберем индекс списка. Способ выбора не важен, на практике вполне подходит и случайный.
+  Элемент с этим индексом называется опорным элементом (pivot).
+
+  2.Разделим список на две группы:
+
+    * Элементы меньше или равные pivot, lesser_els
+
+    * Элементы строго большие, чем pivot, great_els
+
+  3.Мы знаем, что одна из этих групп содержит медиану. Предположим, что мы ищем k-тый элемент:
+
+    * Если в lesser_els есть k или больше элементов, рекурсивно обходим список lesser_els
+    в поисках k-того элемента.
+
+    * Если в lesser_els меньше, чем k элементтов, рекурсивно обходим список greater_els.
+    Вместо поиска k мы ищем k-len(lesser_els).
+*/
+
+// Перемещения элементов в массиве.
+const swap = (arr, i, j) => {
+  const temp = arr[i];
+  arr[i] = arr[j];
+  arr[j] = temp;
+};
+
+// Нормализации трех элементов в массиве.
+const normalizeThreeElements = (arr) => {
+  const leftIndex = 0;
+  const midIndex = Math.floor(arr.length / 2);
+  const rightIndex = arr.length - 1;
+
+  if (arr[leftIndex] > arr[midIndex]) {
+    /*
+      Можно записать так:
+      [arr[leftIndex], arr[midIndex]] = [arr[midIndex], arr[leftIndex]];
+      Но решение ниже чуть эффективнее:
+    */
+    swap(arr, leftIndex, midIndex);
+  }
+  if (arr[leftIndex] > arr[rightIndex]) {
+    // [arr[leftIndex], arr[rightIndex]] = [arr[rightIndex], arr[leftIndex]];
+    swap(arr, leftIndex, rightIndex);
+  }
+  if (arr[midIndex] > arr[rightIndex]) {
+    // [arr[midIndex], arr[rightIndex]] = [arr[rightIndex], arr[midIndex]];
+    swap(arr, midIndex, rightIndex);
+  }
+  return arr;
+};
+
+/*
+  Пример корректного quickselect с медианой из трёх (JavaScript)
+js
+const swap = (arr, i, j) => {
+  const temp = arr[i];
+  arr[i] = arr[j];
+  arr[j] = temp;
+};
+
+const medianOfThree = (arr, left, right) => {
+  const mid = Math.floor((left + right) / 2);
+  if (arr[left] > arr[mid]) swap(arr, left, mid);
+  if (arr[left] > arr[right]) swap(arr, left, right);
+  if (arr[mid] > arr[right]) swap(arr, mid, right);
+  // Теперь arr[mid] — медиана из трех
+  return arr[mid];
+};
+
+function quickselect(arr, k, left = 0, right = arr.length - 1) {
+  if (left === right) return arr[left];
+
+  const pivot = medianOfThree(arr, left, right);
+
+  // Разбиение по pivot
+  let i = left;
+  let j = right;
+
+  while (i <= j) {
+    while (arr[i] < pivot) i++;
+    while (arr[j] > pivot) j--;
+    if (i <= j) {
+      swap(arr, i, j);
+      i++;
+      j--;
+    }
+  }
+
+  // Теперь arr[left..j] <= pivot, arr[i..right] >= pivot
+
+  if (k - 1 <= j) {
+    return quickselect(arr, k, left, j);
+  }
+  if (k - 1 >= i) {
+    return quickselect(arr, k, i, right);
+  }
+  return arr[j + 1];
+}
+
+// Пример использования:
+const testData6 = [9, 1, 0, 2, 3, 4, 6, 8, 7, 10, 5];
+const n = testData6.length;
+const median = quickselect(testData6.slice(), Math.floor(n / 2) + 1); // 6-й элемент
+*/
+
+// Поиск медианы
+const findMedianLinear = (arr, k, left = 0, right = arr.length - 1) => {
+  normalizeThreeElements(arr);
+  const pivot = arr[Math.floor(arr.length / 2)];
+  // const left = [];
+  // const right = [];
+
+  // for (let i = 0; i < arr.length; i++) {
+  //   if (arr[i] <= pivot) {
+  //     left.push(arr[i]);
+  //   } else if (arr[i] > pivot) {
+  //     right.push(arr[i]);
+  //   }
+  // }
+
+  console.log(left);
+  console.log(right);
+};
+
+findMedianLinear(testData6);
+
 const Sorting1 = () => {
   return (
     <div>
       <h1>Сортировка Пузырьком и Quick Sort</h1>
-      <Tester result={quickSort(testData1).join(", ")} answer={"1, 2, 3, 5"} />
+      {/* <Tester result={quickSort(testData1).join(", ")} answer={"1, 2, 3, 5"} />
       <Tester result={quickSort(testData2).join(", ")} answer={"1, 2, 3"} />
       <Tester
         result={quickSort(testData3).join(", ")}
@@ -144,7 +287,7 @@ const Sorting1 = () => {
       <Tester
         result={quickSort(testData4).join(", ")}
         answer={"1, 2, 3, 4, 7, 7, 7, 8, 9"}
-      />
+      /> */}
     </div>
   );
 };
