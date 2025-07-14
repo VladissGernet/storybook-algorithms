@@ -9,6 +9,7 @@ const testData4 = [1, 4, 7, 8, 7, 7, 3, 2, 9];
 const testData5 = [9, 4, 7, 8, 1, 7, 3, 2, 2];
 const testData6 = [9, 1, 0, 2, 3, 4, 6, 8, 7, 10, 5];
 
+// Сортировка пузырьком.
 const bubbleSort = (arr) => {
   while (true) {
     let isArrChanged = false;
@@ -195,7 +196,8 @@ const medianOfThree = (arr, left, right) => {
   (или k-го наименьшего/наибольшего) элемента в неупорядоченном списке
   (массиве).
 */
-const quickSelect = (arr, k) => {
+// Это не классическая версия!
+const notClassicQuickSelect = (arr, k) => {
   // Медиана длины изначального массива - k.
   // Базовый случай рекурсии
   if (arr.length === 1) {
@@ -214,7 +216,7 @@ const quickSelect = (arr, k) => {
   let equalEls = [];
 
   for (let i = 0; i < arr.length; i++) {
-    if (arr[i] <= pivot) {
+    if (arr[i] < pivot) {
       lesserEls.push(arr[i]);
     } else if (arr[i] > pivot) {
       greaterEls.push(arr[i]);
@@ -234,10 +236,54 @@ const quickSelect = (arr, k) => {
   }
 };
 
-// console.log(testData6, "array to find");
+// Классическая версия и оптимальная.
+const swap1 = (arr, i, j) => {
+  const temp = arr[i];
+  arr[i] = arr[j];
+  arr[j] = temp;
+};
 
-// quickSelect(testData6, Math.floor(testData6.length / 2));
+const random1 = (min, max) => {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+};
 
+const partition1 = (arr, left, right) => {
+  const pivot = arr[random1(left, right)];
+  while (left <= right) {
+    while (arr[left] < pivot) {
+      left++;
+    }
+    while (arr[right] > pivot) {
+      right--;
+    }
+    if (left <= right) {
+      swap1(arr, left, right);
+      left++;
+      right--;
+    }
+  }
+  return left;
+};
+
+const quickSelect = (arr, k, left, right) => {
+  left = left ?? 0;
+  right = right ?? arr.length - 1;
+  if (left === right) {
+    return arr[left];
+  }
+  const pivotIndex = partition1(arr, left, right);
+
+  if (k < pivotIndex) {
+    return quickSelect(arr, k, left, pivotIndex - 1);
+  } else {
+    return quickSelect(arr, k, pivotIndex, right);
+  }
+};
+
+console.log(testData1);
+console.log(quickSelect(testData1, Math.floor(testData1.length / 2)), "result");
+console.log(testData6, "array to find");
+console.log(quickSelect(testData6, Math.floor(testData6.length / 2)));
 // Решение из гайда.
 
 const random = (min, max) => {
@@ -252,7 +298,7 @@ const partition = (arr, left, right) => {
   const pivot = arr[random(left, right)];
 
   // Как и в бинпоиске, схождение с краев в центр, пока не просмотрим все элементы.
-  while (left < right) {
+  while (left <= right) {
     // Пока слева встречаются только числа меньше поворотного...
     while (arr[left] < pivot) {
       // ... двигаем левый указатель вправо, ведь с этими числами ничего делать не надо.
@@ -271,6 +317,7 @@ const partition = (arr, left, right) => {
       // ... меняем их местами и не забываем двигать оба указателя, так как теперь оба числа на своём месте.
       [arr[left], arr[right]] = [arr[right], arr[left]];
       left++;
+      right--;
     }
   }
 
@@ -299,8 +346,9 @@ const quickSort = (arr, left, right) => {
 
   return arr;
 };
-console.log(testData1, "initial");
-console.log(quickSort(testData1));
+// console.log(testData1, "initial");
+// console.log(quickSort(testData1));
+
 const Sorting1 = () => {
   return (
     <div>
