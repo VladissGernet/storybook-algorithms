@@ -69,6 +69,7 @@ const Sorting3 = () => {
   ];
 
   const VALUE_OF_TOP = 3;
+  const topOfLeaguePoints = testData.length - 1 - VALUE_OF_TOP;
 
   const swap = (arr, i, j) => {
     const temp = arr[i];
@@ -81,31 +82,22 @@ const Sorting3 = () => {
   };
 
   const partition = (arr, left, right) => {
-    const pivot = arr[random(left, right)];
+    const pivot = arr[random(left, right)].leaguePoints;
+    while (left <= right) {
+      while (arr[left].leaguePoints < pivot) {
+        left++;
+      }
 
-    /*
-      Остановился на деструктуризации элемента
-    */
-    // const { leaguePoints } = arr[left];
-    // console.log(leaguePoints); // 956
+      while (arr[right].leaguePoints > pivot) {
+        right--;
+      }
 
-    console.log(arr[left]);
-
-    // while (left <= right) {
-    //   while (arr[left] < pivot) {
-    //     left++;
-    //   }
-
-    //   while (arr[right] > pivot) {
-    //     right--;
-    //   }
-
-    //   if (left <= right) {
-    //     swap(arr, left, right);
-    //     left++;
-    //     right--;
-    //   }
-    // }
+      if (left <= right) {
+        swap(arr, left, right);
+        left++;
+        right--;
+      }
+    }
 
     return left;
   };
@@ -117,14 +109,45 @@ const Sorting3 = () => {
 
     const pivotIndex = partition(arr, left, right);
 
-    // if (k < pivotIndex) {
-    //   return quickSelect(arr, k, left, pivotIndex - 1);
-    // } else {
-    //   return quickSelect(arr, k, pivotIndex, right);
-    // }
+    if (k < pivotIndex) {
+      return quickSelect(arr, k, left, pivotIndex - 1);
+    } else {
+      return quickSelect(arr, k, pivotIndex, right);
+    }
   };
 
-  console.log(quickSelect(testData, VALUE_OF_TOP));
+  const quickSort = (arr, left = 0, right = arr.length - 1) => {
+    const pivotIndex = partition(arr, left, right);
+
+    if (left < pivotIndex - 1) {
+      quickSort(arr, left, pivotIndex - 1);
+    }
+    if (right > pivotIndex) {
+      quickSort(arr, pivotIndex, right);
+    }
+
+    return arr;
+  };
+
+  // Получаем топ 3 неотсортированных.
+  quickSelect(testData, topOfLeaguePoints);
+
+  // Сортируем эти топ 3.
+  quickSort(testData, topOfLeaguePoints, testData.length - 1);
+
+  // Формируем топ 3 для отображения.
+  const reversedListItems = [];
+
+  for (let i = testData.length - 1; i > topOfLeaguePoints; i--) {
+    const el = testData[i];
+
+    reversedListItems.push(
+      <li key={el.login + el.leaguePoints}>
+        <p>Login: {el.login}</p>
+        <p>League Points: {el.leaguePoints}</p>
+      </li>
+    );
+  }
 
   return (
     <div>
@@ -141,6 +164,10 @@ const Sorting3 = () => {
         отдаёт топ-3 лучших, не прибегая к полной сортировке. Можете
         использовать любой из уже известных вам алгоритмов сортировки.
       </p>
+      <p>
+        Нужно вывести топ <b>{VALUE_OF_TOP}</b>
+      </p>
+      <ol>{reversedListItems}</ol>
     </div>
   );
 };
