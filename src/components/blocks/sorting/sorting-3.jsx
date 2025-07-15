@@ -67,7 +67,8 @@ const Sorting3 = () => {
       leaguePoints: 931,
     },
   ];
-  const testData1 = [5, 3, 2, 1];
+
+  const VALUE_OF_TOP = 3;
 
   const swap = (arr, i, j) => {
     const temp = arr[i];
@@ -82,21 +83,29 @@ const Sorting3 = () => {
   const partition = (arr, left, right) => {
     const pivot = arr[random(left, right)];
 
-    while (left <= right) {
-      while (arr[left] < pivot) {
-        left++;
-      }
+    /*
+      Остановился на деструктуризации элемента
+    */
+    // const { leaguePoints } = arr[left];
+    // console.log(leaguePoints); // 956
 
-      while (arr[right] > pivot) {
-        right--;
-      }
+    console.log(arr[left]);
 
-      if (left <= right) {
-        swap(arr, left, right);
-        left++;
-        right--;
-      }
-    }
+    // while (left <= right) {
+    //   while (arr[left] < pivot) {
+    //     left++;
+    //   }
+
+    //   while (arr[right] > pivot) {
+    //     right--;
+    //   }
+
+    //   if (left <= right) {
+    //     swap(arr, left, right);
+    //     left++;
+    //     right--;
+    //   }
+    // }
 
     return left;
   };
@@ -108,14 +117,14 @@ const Sorting3 = () => {
 
     const pivotIndex = partition(arr, left, right);
 
-    if (k < pivotIndex) {
-      return quickSelect(arr, k, left, pivotIndex - 1);
-    } else {
-      return quickSelect(arr, k, pivotIndex, right);
-    }
+    // if (k < pivotIndex) {
+    //   return quickSelect(arr, k, left, pivotIndex - 1);
+    // } else {
+    //   return quickSelect(arr, k, pivotIndex, right);
+    // }
   };
 
-  console.log(quickSelect(testData1, 2));
+  console.log(quickSelect(testData, VALUE_OF_TOP));
 
   return (
     <div>
