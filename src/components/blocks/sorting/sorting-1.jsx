@@ -201,7 +201,6 @@ const notClassicQuickSelect = (arr, k) => {
   // Медиана длины изначального массива - k.
   // Базовый случай рекурсии
   if (arr.length === 1) {
-    console.log(arr[0], "result");
     return arr[0];
   }
 
@@ -280,10 +279,10 @@ const quickSelect = (arr, k, left, right) => {
   }
 };
 
-console.log(testData1);
-console.log(quickSelect(testData1, Math.floor(testData1.length / 2)), "result");
-console.log(testData6, "array to find");
-console.log(quickSelect(testData6, Math.floor(testData6.length / 2)));
+// console.log(testData1);
+// console.log(quickSelect(testData1, Math.floor(testData1.length / 2)), "result");
+// console.log(testData6, "array to find");
+// console.log(quickSelect(testData6, Math.floor(testData6.length / 2)));
 // Решение из гайда.
 
 const random = (min, max) => {
