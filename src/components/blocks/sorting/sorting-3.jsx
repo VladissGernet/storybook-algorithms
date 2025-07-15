@@ -67,6 +67,55 @@ const Sorting3 = () => {
       leaguePoints: 931,
     },
   ];
+  const testData1 = [5, 3, 2, 1];
+
+  const swap = (arr, i, j) => {
+    const temp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = temp;
+  };
+
+  const random = (min, max) => {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  };
+
+  const partition = (arr, left, right) => {
+    const pivot = arr[random(left, right)];
+
+    while (left <= right) {
+      while (arr[left] < pivot) {
+        left++;
+      }
+
+      while (arr[right] > pivot) {
+        right--;
+      }
+
+      if (left <= right) {
+        swap(arr, left, right);
+        left++;
+        right--;
+      }
+    }
+
+    return left;
+  };
+
+  const quickSelect = (arr, k, left = 0, right = arr.length - 1) => {
+    if (left === right) {
+      return arr[left];
+    }
+
+    const pivotIndex = partition(arr, left, right);
+
+    if (k < pivotIndex) {
+      return quickSelect(arr, k, left, pivotIndex - 1);
+    } else {
+      return quickSelect(arr, k, pivotIndex, right);
+    }
+  };
+
+  console.log(quickSelect(testData1, 2));
 
   return (
     <div>
