@@ -69,6 +69,7 @@ const Sorting3 = () => {
   ];
 
   const VALUE_OF_TOP = 3;
+  const SORT_SWITCH_THRESHOLD = 10;
   const topOfLeaguePoints = testData.length - 1 - VALUE_OF_TOP;
 
   const swap = (arr, i, j) => {
@@ -129,17 +130,32 @@ const Sorting3 = () => {
     return arr;
   };
 
+  const bubbleSort = (arr, from = 0, to = arr.length) => {
+    while (true) {
+      let isChanged = false;
+      for (let i = from; i < to; i++) {
+        if (arr[i].leaguePoints > arr[i + 1].leaguePoints) {
+          swap(arr, i, i + 1);
+          isChanged = true;
+        }
+      }
+      if (isChanged === false) {
+        return arr;
+      }
+    }
+  };
+
   // Получаем топ 3 неотсортированных.
   quickSelect(testData, topOfLeaguePoints);
 
-  // Сортируем эти топ 3.
+  // Сортируем эти топ 3 с помощью quickSort.
+  // Практика показывает, что на малых данных quickSort плохо себя показывает.
 
-  /*
-    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    Переписать на сортировку пузырьком И вставкой.
-    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  */
-  quickSort(testData, topOfLeaguePoints, testData.length - 1);
+  if (testData.length - 1 - topOfLeaguePoints < SORT_SWITCH_THRESHOLD) {
+    bubbleSort(testData, topOfLeaguePoints, testData.length - 1);
+  } else {
+    quickSort(testData, topOfLeaguePoints, testData.length - 1);
+  }
 
   // Формируем топ 3 для отображения.
   const reversedListItems = [];
