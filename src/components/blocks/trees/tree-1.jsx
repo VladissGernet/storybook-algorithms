@@ -1,14 +1,33 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 
 const Tree1 = () => {
   const rootTree = useRef(null);
+  const [resultBFS, setResultBFS] = useState("");
 
-  const traverse = (node) => {
+  // Поиск в ширину (breadth-first search, BFS).
+  const traverseBreadthFirstSearch = (node) => {
     const result = [];
+    const queue = [];
+    queue.push(node);
+
+    while (queue.length) {
+      const currentNode = queue.shift();
+      result.push(currentNode.localName);
+      queue.push(...currentNode.children);
+    }
+
+    return (
+      <>
+        <h2>Резулютат поиска в ширину:</h2>
+        <p>{result.join("   --->   ")}</p>
+      </>
+    );
   };
 
   useEffect(() => {
-    console.log(rootTree.current);
+    if (rootTree.current) {
+      setResultBFS(traverseBreadthFirstSearch(rootTree.current));
+    }
   }, []);
 
   return (
@@ -44,6 +63,7 @@ const Tree1 = () => {
           </tr>
         </tbody>
       </table>
+      {resultBFS}
     </div>
   );
 };
