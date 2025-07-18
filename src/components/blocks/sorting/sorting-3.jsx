@@ -130,19 +130,17 @@ const Sorting3 = () => {
     return arr;
   };
 
-  const bubbleSort = (arr, from = 0, to = arr.length) => {
-    while (true) {
-      let isChanged = false;
-      for (let i = from; i < to; i++) {
-        if (arr[i].leaguePoints > arr[i + 1].leaguePoints) {
-          swap(arr, i, i + 1);
-          isChanged = true;
-        }
+  const insertionSort = (arr, from = 0, to = arr.length) => {
+    for (let i = from + 1; i < to; i++) {
+      let current = arr[i];
+      let j = i - 1;
+      while (j >= 0 && arr[j].leaguePoints > current.leaguePoints) {
+        arr[j + 1] = arr[j];
+        j--;
       }
-      if (isChanged === false) {
-        return arr;
-      }
+      arr[j + 1] = current;
     }
+    return arr;
   };
 
   // Получаем топ 3 неотсортированных.
@@ -152,7 +150,7 @@ const Sorting3 = () => {
   // Практика показывает, что на малых данных quickSort плохо себя показывает.
 
   if (testData.length - 1 - topOfLeaguePoints < SORT_SWITCH_THRESHOLD) {
-    bubbleSort(testData, topOfLeaguePoints, testData.length - 1);
+    insertionSort(testData, topOfLeaguePoints, testData.length);
   } else {
     quickSort(testData, topOfLeaguePoints, testData.length - 1);
   }

@@ -6,7 +6,7 @@ import { Sorting1 } from "./sorting-1";
 import { Sorting2 } from "./sorting-2";
 import { Sorting3 } from "./sorting-3";
 
-export const bubbleSort = () => (
+export const bubbleAndQuickAndInsertionkSorts = () => (
   <StyledPage>
     <Sorting1 />
   </StyledPage>

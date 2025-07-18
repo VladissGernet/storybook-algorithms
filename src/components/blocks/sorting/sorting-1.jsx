@@ -2,14 +2,15 @@ import React from "react";
 
 import { Tester } from "../tester/tester";
 
-const testData1 = [5, 3, 2, 1];
+const testData0 = [0, 1, 0, 1];
+const testData1 = [5, 3, 1, 4];
 const testData2 = [1, 2, 3];
 const testData3 = [1, 4, 6, 8, 7, 5, 3, 2, 9];
 const testData4 = [1, 4, 7, 8, 7, 7, 3, 2, 9];
 const testData5 = [9, 4, 7, 8, 1, 7, 3, 2, 2];
 const testData6 = [9, 1, 0, 2, 3, 4, 6, 8, 7, 10, 5];
 
-// Сортировка пузырьком.
+// Сортировка пузырьком моя версия более оптимальная.
 const bubbleSort = (arr) => {
   while (true) {
     let isArrChanged = false;
@@ -264,6 +265,7 @@ const partition1 = (arr, left, right) => {
   return left;
 };
 
+// k - значение велечины элемента в массиве. Например, k = 0; позволит найти самый большой элемент в массиве.
 const quickSelect = (arr, k, left, right) => {
   left = left ?? 0;
   right = right ?? arr.length - 1;
@@ -348,10 +350,32 @@ const quickSort = (arr, left, right) => {
 // console.log(testData1, "initial");
 // console.log(quickSort(testData1));
 
+/*
+  Сортировка вставкой.
+*/
+
+const insertionSort = (arr) => {
+  for (let i = 1; i < arr.length; i++) {
+    let current = arr[i];
+    let j = i - 1;
+    while (j >= 0 && arr[j] > current) {
+      // Сдвеиг элементов вправо.
+      arr[j + 1] = arr[j];
+      j--;
+    }
+    // Вставка текущего элемента на найденное место.
+    arr[j + 1] = current;
+  }
+  return arr;
+};
+
 const Sorting1 = () => {
   return (
     <div>
-      <h1>Сортировка Пузырьком, Quick Sort, Quick Select</h1>
+      <h1>
+        Сортировка Пузырьком, Quick Sort, Quick Select, Insertion sort
+        (Сортировка вставкой).
+      </h1>
       {/* <Tester result={quickSort(testData1).join(", ")} answer={"1, 2, 3, 5"} />
       <Tester result={quickSort(testData2).join(", ")} answer={"1, 2, 3"} />
       <Tester
