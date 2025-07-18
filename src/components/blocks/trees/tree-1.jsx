@@ -3,6 +3,7 @@ import React, { useRef, useEffect, useState } from "react";
 const Tree1 = () => {
   const rootTree = useRef(null);
   const [resultBFS, setResultBFS] = useState("");
+  const [resultDFS, setResultDFS] = useState("");
 
   // Поиск в ширину (breadth-first search, BFS).
   const traverseBreadthFirstSearch = (node) => {
@@ -24,9 +25,30 @@ const Tree1 = () => {
     );
   };
 
+  // Поиск в глубину (DFS, Depth-first search).
+  const traverseDeepFirstSearch = (node) => {
+    const result = [];
+
+    const recursive = (node) => {
+      result.push(node.localName);
+      for (let child of node.children) {
+        recursive(child);
+      }
+    };
+
+    recursive(node);
+    return (
+      <>
+        <h2>Резулютат поиска в глубину:</h2>
+        <p>{result.join("   --->   ")}</p>
+      </>
+    );
+  };
+
   useEffect(() => {
     if (rootTree.current) {
       setResultBFS(traverseBreadthFirstSearch(rootTree.current));
+      setResultDFS(traverseDeepFirstSearch(rootTree.current));
     }
   }, []);
 
@@ -64,6 +86,7 @@ const Tree1 = () => {
         </tbody>
       </table>
       {resultBFS}
+      {resultDFS}
     </div>
   );
 };
