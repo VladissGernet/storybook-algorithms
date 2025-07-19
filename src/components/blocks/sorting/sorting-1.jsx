@@ -369,6 +369,32 @@ const insertionSort = (arr) => {
   return arr;
 };
 
+/* 
+  QuickSort без рекурсии.
+*/
+
+const quickSortIterative = (arr) => {
+  // Вместо рекурсивных вызовов сортировки для подмассивов, их индексы складываются и извлекаются из стека вручную.
+  const stack = [];
+  stack.push(0, arr.length - 1);
+
+  while (stack.length) {
+    const end = stack.pop();
+    const start = stack.pop();
+
+    // Проверяется, что левая граница подмассива start стала больше или равна правой границе end.
+    // Если это условие истинно, значит подмассив пуст или размером менее 2 элементов, сортировать его не нужно.
+    if (start >= end) continue;
+
+    const pivotIndex = partition(arr, start, end);
+
+    stack.push(start, pivotIndex - 1);
+    stack.push(pivotIndex, end);
+  }
+
+  return arr;
+};
+
 const Sorting1 = () => {
   return (
     <div>
