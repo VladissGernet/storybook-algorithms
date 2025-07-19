@@ -297,8 +297,31 @@ const quickSelect = (arr, k, left, right) => {
   }
 };
 
+const quickSelectIteration = (arr, k) => {
+  const stack = [];
+
+  stack.push(0, arr.length - 1);
+  while (stack.length) {
+    const end = stack.pop();
+    const start = stack.pop();
+
+    if (end === start) {
+      return arr[end];
+    }
+
+    const pivotIndex = partition1(arr, start, end);
+    if (k < pivotIndex) {
+      stack.push(start, pivotIndex - 1);
+    } else {
+      stack.push(pivotIndex, end);
+    }
+  }
+};
+
 // console.log(testData1);
-// console.log(quickSelect(testData1, Math.floor(testData1.length / 2)), "result");
+// quickSelectIteration(testData1, 1);
+// console.log(testData1);
+// console.log(quickSelect(testData1, 0), "result");
 // console.log(testData6, "array to find");
 // console.log(quickSelect(testData6, Math.floor(testData6.length / 2)));
 // Решение из гайда.
