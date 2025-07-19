@@ -27,6 +27,22 @@ const bubbleSort = (arr) => {
   }
 };
 
+const bubbleSortReversed = (arr) => {
+  while (true) {
+    let isArrChanged = false;
+    for (let i = 0; i < arr.length; i++) {
+      if (arr[i] < arr[i + 1]) {
+        [arr[i], arr[i + 1]] = [arr[i + 1], arr[i]];
+        isArrChanged = true;
+      }
+    }
+
+    if (isArrChanged === false) {
+      return arr;
+    }
+  }
+};
+
 /*
   Мое решение quickSortMySolution неудачное, по причинам:
   Использование новых массивов: Вы на каждом шаге создаёте новый массив (newArr), а результат сохраняете в resultArr.
@@ -356,7 +372,7 @@ const quickSort = (arr, left, right) => {
 
 const insertionSort = (arr) => {
   for (let i = 1; i < arr.length; i++) {
-    let current = arr[i];
+    const current = arr[i];
     let j = i - 1;
     while (j >= 0 && arr[j] > current) {
       // Сдвеиг элементов вправо.
@@ -364,6 +380,19 @@ const insertionSort = (arr) => {
       j--;
     }
     // Вставка текущего элемента на найденное место.
+    arr[j + 1] = current;
+  }
+  return arr;
+};
+
+const insertionSortReversed = (arr) => {
+  for (let i = 1; i < arr.length; i++) {
+    const current = arr[i];
+    let j = i - 1;
+    while (j >= 0 && arr[j] < current) {
+      arr[j + 1] = arr[j];
+      j--;
+    }
     arr[j + 1] = current;
   }
   return arr;
