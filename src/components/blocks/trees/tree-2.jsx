@@ -1,12 +1,11 @@
 import React, { useRef, useEffect } from "react";
-import { P } from "storybook/internal/components";
 import styled, { css } from "styled-components";
 
 const commonStyles = css`
   padding: 0 10px;
   margin-right: 5px;
   border: 1px solid #ffffff;
-  display: inline-block; /* например, чтобы span выглядел как блок с размером */
+  display: inline-block;
   width: 20px;
   height: 20px;
 `;
@@ -32,36 +31,17 @@ const Tree2 = () => {
   const list = useRef(null);
 
   const traverseDeepFirstSearch = (node) => {
-    const result = [];
-
-    let currentDepth = 0;
-
     const recursive = (node) => {
-      result.push(node.localName);
       for (let child of node.children) {
-        if (child.localName === "li") {
-          child.style.backgroundColor = colors[currentDepth];
-
-          let isInnerUl = false;
-          for (let innerChildren of child.children) {
-            if (innerChildren.localName === "ul") {
-              isInnerUl = true;
-            }
-          }
-
-          if (isInnerUl) {
-            currentDepth++;
-            recursive(child);
-          } else {
-            currentDepth = 0;
+        for (let i = 0; i < child.children.length; i++) {
+          const el = child.children[i];
+          if (el.localName === "ul") {
           }
         }
       }
     };
 
     recursive(node);
-
-    return result.join("   --->   ");
   };
 
   useEffect(() => {
