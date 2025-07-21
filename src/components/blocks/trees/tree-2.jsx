@@ -30,12 +30,22 @@ const Color3 = styled.span`
 const Tree2 = () => {
   const list = useRef(null);
 
-  const traverseDeepFirstSearch = (node) => {
+  const paintListItemsMySolution = (node) => {
+    let currentDepthLevel = -1;
     const recursive = (node) => {
-      for (let child of node.children) {
-        for (let i = 0; i < child.children.length; i++) {
-          const el = child.children[i];
-          if (el.localName === "ul") {
+      const isCurrentNodeList = node.localName === "ul";
+
+      if (isCurrentNodeList) {
+        if (currentDepthLevel > colors.length - 2) {
+          currentDepthLevel = -1;
+        }
+        currentDepthLevel++;
+
+        for (let listElement of node.children) {
+          listElement.style.backgroundColor = colors[currentDepthLevel];
+
+          for (let listElementChild of listElement.children) {
+            recursive(listElementChild);
           }
         }
       }
@@ -44,8 +54,28 @@ const Tree2 = () => {
     recursive(node);
   };
 
+  const paintListItemsPerplexity = (node, depth = 0) => {
+    if (node?.localName !== "ul") {
+      return;
+    }
+
+    for (const li of node.children) {
+      if (li.localName === "li") {
+        li.style.backgroundColor = colors[depth % colors.length];
+      }
+
+      // Ищем возможно вложенные <ul> внутри этого <li> и рекурсивно раскрашиваем их
+
+      for (const child of li.children) {
+        if (child.localName === "ul") {
+          paintListItemsPerplexity(child, depth + 1);
+        }
+      }
+    }
+  };
+
   useEffect(() => {
-    traverseDeepFirstSearch(list.current);
+    paintListItemsPerplexity(list.current);
   }, []);
 
   return (
