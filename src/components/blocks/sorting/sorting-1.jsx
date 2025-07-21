@@ -449,31 +449,54 @@ const quickSortIterative = (arr) => {
 
 // Находит точное место в arr у элемента в отличие от Hoare, но делает больше swap.
 const partitionLomuto = (arr, start, end) => {
+  console.log("arr before", arr);
+
   const pivotIndex = random(start, end);
+  console.log("pivotIndex", pivotIndex);
+
   swap(arr, pivotIndex, end);
+  console.log("arr after", arr);
+
   /*
     pivot должно быть в конце перед началом разбиения — иначе после свапа в конце всё "ломается".
     После этого Lomuto partition гарантирует, что слева от возвращённого индекса — элементы меньше pivot, справа — больше или равны.
   */
   const pivot = arr[end]; // pivot гарантировано в end.
+  console.log("pivot", pivot);
+
   let i = start;
   /*
     i — это граница отделения: все элементы, которые левее этого индекса, будут меньше pivot (к текущему моменту).
     Он показывает, где поставить следующий элемент, который меньше pivot.
   */
   for (let j = start; j < end; j++) {
+    console.log("i", i, "j", j, "arr before", arr);
+
+    console.log(
+      "arr[j]",
+      arr[j],
+      "pivot",
+      pivot,
+      "arr[j] < pivot",
+      arr[j] < pivot
+    );
+
     if (arr[j] < pivot) {
       swap(arr, i, j);
       i++;
     }
+
+    console.log("i", i, "j", j, "arr after", arr);
   }
+  console.log("i", i, "arr after cycle", arr);
+
   swap(arr, i, end);
+  console.log("i", i, "arr after swap", arr);
   return i;
 };
 
-// console.log(testData1);
 // const resultIndex = partitionLomuto(testData1, 0, testData1.length - 1);
-// console.log("resultIndex", resultIndex, "value");
+// console.log("resultIndex", resultIndex, "value", testData1[resultIndex]);
 // console.log(testData1);
 
 const Sorting1 = () => {

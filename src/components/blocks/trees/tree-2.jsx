@@ -1,4 +1,5 @@
 import React, { useRef, useEffect } from "react";
+import { P } from "storybook/internal/components";
 import styled, { css } from "styled-components";
 
 const commonStyles = css`
@@ -10,26 +11,61 @@ const commonStyles = css`
   height: 20px;
 `;
 
+const colors = ["#dcd6f7", "#a6b1e1", "#b4869f"];
+
 const Color1 = styled.span`
   ${commonStyles}
-  background-color: #dcd6f7;
+  background-color: ${colors[0]};
 `;
 
 const Color2 = styled.span`
   ${commonStyles}
-  background-color: #a6b1e1;
+  background-color: ${colors[1]};
 `;
 
 const Color3 = styled.span`
   ${commonStyles}
-  background-color: #b4869f;
+  background-color: ${colors[2]};
 `;
 
 const Tree2 = () => {
   const list = useRef(null);
 
+  const traverseDeepFirstSearch = (node) => {
+    const result = [];
+
+    let currentDepth = 0;
+
+    const recursive = (node) => {
+      result.push(node.localName);
+      for (let child of node.children) {
+        if (child.localName === "li") {
+          child.style.backgroundColor = colors[currentDepth];
+
+          let isInnerUl = false;
+          for (let innerChildren of child.children) {
+            if (innerChildren.localName === "ul") {
+              isInnerUl = true;
+            }
+          }
+
+          if (isInnerUl) {
+            currentDepth++;
+            recursive(child);
+          } else {
+            currentDepth = 0;
+          }
+        }
+      }
+    };
+
+    recursive(node);
+
+    return result.join("   --->   ");
+  };
+
   useEffect(() => {
-    console.log(list.current);
+    traverseDeepFirstSearch(list.current);
   }, []);
 
   return (
