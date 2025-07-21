@@ -30,6 +30,7 @@ const Color3 = styled.span`
 const Tree2 = () => {
   const list = useRef(null);
 
+  // Решение обходом в глубину.
   const paintListItemsMySolution = (node) => {
     let currentDepthLevel = -1;
     const recursive = (node) => {
@@ -74,8 +75,35 @@ const Tree2 = () => {
     }
   };
 
+  // Решение обходом в ширину.
+  const paintListItemsGuide = (node) => {
+    // Обход дерева в ширину.
+    const queue = [];
+
+    queue.push({ node, depth: 0 });
+
+    // Обход всех нод из списка.
+    while (queue.length) {
+      const { node: currentNode, depth: currentDepth } = queue.shift();
+      const isStylable = currentNode.localName === "li";
+
+      if (isStylable) {
+        currentNode.style.backgroundColor =
+          colors[currentDepth % colors.length];
+      }
+
+      for (const node of currentNode.children) {
+        queue.push({
+          node,
+          depth: isStylable ? currentDepth + 1 : currentDepth,
+        });
+      }
+    }
+  };
+
   useEffect(() => {
-    paintListItemsPerplexity(list.current);
+    // paintListItemsPerplexity(list.current);
+    paintListItemsGuide(list.current);
   }, []);
 
   return (
