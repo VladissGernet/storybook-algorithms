@@ -1,13 +1,7 @@
 # Моя сборка webpack для создания проектов на React.
 # Практикую алгоритмы на JavaScript. 
 
-### `npm start`
-
-Запускает сборку на [http://localhost:8080]
-
-### `npm run build`
-
-Собирает сборку в dist.
+### `npm run storybook`
 
 # Структура проекта
 
