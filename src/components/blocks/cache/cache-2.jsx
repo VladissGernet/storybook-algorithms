@@ -84,7 +84,7 @@ const Cache2 = () => {
             prevTimestamp: timestamp,
             repeats: 0,
           });
-        } else if (prevTimestamp <= MAX_TIMESTAMP) {
+        } else {
           // Если новое одинаковое сообщение пришло с промежутком менее 5 секунд.
           // Увеличиваю значение повторений на 1.
           resultCache[prevResultCachePosition].repeats++;
@@ -111,7 +111,6 @@ const Cache2 = () => {
 
     // Очищаем коллекцию для освобождения памяти.
     encountered.clear();
-
     return resultCache;
   };
 
