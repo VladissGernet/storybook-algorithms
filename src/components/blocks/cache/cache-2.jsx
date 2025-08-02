@@ -95,11 +95,10 @@ const Cache2 = () => {
       } else {
         // Если сообщение получаем впервые:
         // Получаю позицию в кэше.
-        const resultCacheIndexPosition =
-          resultCache.length === 0 ? 0 : resultCache.length;
+        const resultCacheIndexFuturePosition = resultCache.length;
 
         // Устанавливаю в хеш таблице сообщение и его индекс в кэше.
-        encountered.set(message, resultCacheIndexPosition);
+        encountered.set(message, resultCacheIndexFuturePosition);
         // Добавляю в кэш текущее сообщение.
         resultCache.push({
           message: message,
@@ -108,6 +107,8 @@ const Cache2 = () => {
         });
       }
     }
+
+    // https://www.perplexity.ai/search/0-message-cannot-read-property-tMMqRhzRT2GLixZUssAx_Q
 
     // Очищаем коллекцию для освобождения памяти.
     encountered.clear();
