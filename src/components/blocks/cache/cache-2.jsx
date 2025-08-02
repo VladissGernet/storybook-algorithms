@@ -58,12 +58,6 @@ const Cache2 = () => {
   const MAX_TIMESTAMP = 5;
 
   const rateLimit = (logs) => {
-    console.log(logs);
-
-    /*
-      Осталось обработать последнее сообщение.
-    */
-
     const encountered = new Map();
     const resultCache = [];
 
@@ -115,16 +109,11 @@ const Cache2 = () => {
       }
     }
 
-    console.log(encountered);
-    console.log(resultCache);
+    // Очищаем коллекцию для освобождения памяти.
+    encountered.clear();
 
-    /* 
-- записать текущий timestamp в общую переменную.
-- проверить, есть ли сообщение текущего элемента в encountered
-*/
+    return resultCache;
   };
-
-  rateLimit(data);
 
   return (
     <div>
@@ -166,6 +155,17 @@ const Cache2 = () => {
         Имейте в виду, что система логирования сейчас очень нагружена, поэтому
         все операции над логами нужно производить максимально быстро!
       </p>
+      <h2>Резульат:</h2>
+      <ol>
+        {rateLimit(data).map((el) => (
+          <li key={el.message + el.prevTimestamp + el.repeats}>
+            <p>
+              {el.message}
+              {el.repeats > 0 ? ` ${1 + el.repeats}x` : ""}
+            </p>
+          </li>
+        ))}
+      </ol>
     </div>
   );
 };
