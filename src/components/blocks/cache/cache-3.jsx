@@ -59,16 +59,12 @@ const Cache3 = () => {
     while (players.length > 1) {
       const step = Math.floor(Math.random() * MAX_STEP + 1);
       let remove = step;
-      console.log(step);
-
-      console.log(players, "before");
 
       while (remove) {
         const removedPlayer = players.shift();
         players.push(removedPlayer);
         remove--;
       }
-      console.log(players, "after");
 
       const eliminatedPlayer = players.shift();
       eliminated.push({
