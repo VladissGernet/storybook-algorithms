@@ -151,6 +151,41 @@ const GreedyAlgorithms1 = () => {
 
   // prioritizeSolution(appointments);
 
+  const prioritizePerplexityRecommendation = (appointments) => {
+    // Отсортировать встречи по времени окончания
+    appointments.sort(({ end: endA }, { end: endB }) => endA - endB);
+
+    // Начинаем планировать с начала дня.
+    let currentTime = 0;
+
+    return appointments.reduce((acc, item) => {
+      if (item.start >= currentTime) {
+        acc.push(item);
+        currentTime = item.end;
+      }
+      return acc;
+    }, []);
+  };
+
+  const prioritizePerplexitySolution = (appointments) => {
+    // Создаём копию и сортируем по времени окончания
+    const sorted = appointments.slice().sort(({ end: a }, { end: b }) => a - b);
+    // reduce с аккумулятором { timetable, currentTime }
+
+    const { timetable } = sorted.reduce(
+      (acc, item) => {
+        if (item.start >= acc.currentTime) {
+          acc.timetable.push(item);
+          acc.currentTime = item.end;
+        }
+        return acc;
+      },
+      { timetable: [], currentTime: 0 }
+    );
+
+    return timetable;
+  };
+
   return (
     <div>
       <h1>Задача о составлении расписания</h1>
