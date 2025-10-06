@@ -115,7 +115,41 @@ const GreedyAlgorithms1 = () => {
     return result;
   };
 
-  console.log(prioritize(appointments));
+  // console.log(prioritize(appointments));
+
+  const prioritizeSolution = (appointments) => {
+    const timetable = [];
+
+    // Сохраним здесь время начала самой поздней встречи, чтобы остановить алгоритм, когда уже перейдем это время
+    const { end: latestAppointment } = appointments.reduce(
+      (currentLatest, next) =>
+        currentLatest.end < next.end ? next : currentLatest,
+      appointments[0]
+    );
+    // Будем хранить здесь время окончания предыдущей встречи
+    let startAfter = 0;
+
+    // пока мы ещё можем впихнуть встречу в конец
+    while (startAfter < latestAppointment) {
+      // Найдем встречу, которая заканчивается максимально рано после последней и вставим её в конец!
+      const nextAppointments = appointments.filter(({ start }) => {
+        return start >= startAfter;
+      });
+
+      const appointment = nextAppointments.reduce(
+        (currentShortest, next) =>
+          currentShortest.end > next.end ? next : currentShortest,
+        nextAppointments[0]
+      );
+
+      startAfter = appointment.end;
+      timetable.push(appointment);
+    }
+
+    return timetable;
+  };
+
+  // prioritizeSolution(appointments);
 
   return (
     <div>
