@@ -49,7 +49,10 @@ const TableHead = ({ data }) => (
 const Table = ({ data }) => {
   return (
     <table style={{ textAlign: "center", borderSpacing: "10px" }}>
-      <caption>Пример таблицы с данными</caption>
+      <caption style={{ fontWeight: "bold" }}>
+        Максимальное количество занимаемого места —{" "}
+        {data[data.length - 1][data[data.length - 1].length - 1]} МБ
+      </caption>
       <TableHead data={data} />
       <tbody>
         {data.map((row, index) => (
