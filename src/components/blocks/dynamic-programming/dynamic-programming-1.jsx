@@ -6,10 +6,10 @@ import step2 from "/src/assets/dynamic-programming-1/step-2.png";
 import step2Wrong from "/src/assets/dynamic-programming-1/step-2-wrong.png";
 import step3 from "/src/assets/dynamic-programming-1/step-3.png";
 
-const TableData = ({ children }) => (
+const TableData = ({ children, last, lastRow }) => (
   <td
     style={{
-      backgroundColor: "#2f2f2f",
+      backgroundColor: last && lastRow ? "green" : "#2f2f2f",
       padding: "8px",
       border: "1px solid white",
     }}
@@ -18,34 +18,42 @@ const TableData = ({ children }) => (
   </td>
 );
 
-const TableRow = ({ row }) => (
+const TableRow = ({ row, lastRow }) => (
   <tr style={{ backgroundColor: "#2f2f2f", color: "#e0e0e0" }}>
-    {row.map((item, itemIndex) => (
-      <TableData key={itemIndex}>{item}</TableData>
-    ))}
+    {row.map((item, itemIndex) => {
+      return (
+        <TableData
+          key={itemIndex}
+          last={row.length - 1 === itemIndex}
+          lastRow={lastRow}
+        >
+          {item}
+        </TableData>
+      );
+    })}
   </tr>
 );
 
 const TableHead = ({ data }) => (
   <thead style={{ background: "tomato" }}>
-    {data[0].map((_, index) => (
-      <th key={index} style={{ padding: "8px" }}>
-        {index + 1} MB
-      </th>
-    ))}
+    <tr>
+      {data[0].map((_, index) => (
+        <th key={index} style={{ padding: "8px" }}>
+          {index + 1} MB
+        </th>
+      ))}
+    </tr>
   </thead>
 );
 
 const Table = ({ data }) => {
-  console.log(data, "data");
-
   return (
     <table style={{ textAlign: "center", borderSpacing: "10px" }}>
       <caption>Пример таблицы с данными</caption>
       <TableHead data={data} />
       <tbody>
         {data.map((row, index) => (
-          <TableRow row={row} key={index} />
+          <TableRow row={row} key={index} lastRow={data.length - 1 === index} />
         ))}
       </tbody>
     </table>
