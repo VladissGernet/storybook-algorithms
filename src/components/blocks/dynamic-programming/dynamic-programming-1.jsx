@@ -85,20 +85,51 @@ const Table = ({ data, filePartSizes }) => {
 const DynamicProgramming1 = () => {
   const filePartSizes = [4, 5, 7];
   // Напишем нашу функцию для оптимизации, принимающую массив размеров частей и размер пачки
+
   const prioritize = (filePartSizes, chunkSize) => {
-    const table = Array(filePartSizes.length).fill(Array(chunkSize).fill(0));
+    const table = Array(filePartSizes.length)
+      .fill(null)
+      .map(() => Array(chunkSize).fill(0));
 
-    // Начиная с первой линии
-    const firstLine4MB = table[0];
-    // Начиная с минимального размера чанка
-    const firstMinChunkSize = filePartSizes[0];
+    // Начинать от самого наимеьшей части из filePartSizes
+    const minFileParSize = filePartSizes[0];
 
-    for (
-      let chunkSize = firstMinChunkSize;
-      chunkSize <= firstLine4MB.length;
-      chunkSize++
-    ) {
-      // console.log(chunkSize);
+    for (let i = 0; i < filePartSizes.length; i++) {
+      // Начиная с i линии
+      const tableRow = table[i];
+
+      for (
+        let chunkIndex = filePartSizes[0];
+        chunkIndex <= tableRow.length;
+        chunkIndex++
+      ) {
+        // Ищем число максимальное число, которое можно поместить в chunk.
+        let currentChunk = 0;
+
+        console.log("current chunk coordinates =");
+        console.log("row ", i);
+        console.log("column ", chunkIndex);
+
+        // Результат ячейки выше.
+        const chunkAbove =
+          table[i - 1] === undefined
+            ? table[i][chunkIndex - 1]
+            : table[i - 1][chunkIndex - 1];
+
+        console.log("chunk above", chunkAbove);
+
+        /* 
+          Нам выделяется часть 
+        */
+
+        while (currentChunk + minFileParSize <= chunkIndex) {
+          currentChunk += minFileParSize;
+        }
+
+        console.log("currentChunk ", currentChunk);
+
+        tableRow[chunkIndex - 1] += currentChunk;
+      }
     }
 
     return table;
