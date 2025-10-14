@@ -6,11 +6,12 @@ import step2 from "/src/assets/dynamic-programming-1/step-2.png";
 import step2Wrong from "/src/assets/dynamic-programming-1/step-2-wrong.png";
 import step3 from "/src/assets/dynamic-programming-1/step-3.png";
 
+// Стуктурные модули таблицы.
 const TableData = ({ children, last, lastRow }) => (
   <td
     style={{
       backgroundColor: last && lastRow ? "green" : "#2f2f2f",
-      padding: "8px",
+      padding: "10px 8px",
       border: "1px solid white",
     }}
   >
@@ -18,35 +19,47 @@ const TableData = ({ children, last, lastRow }) => (
   </td>
 );
 
-const TableRow = ({ row, lastRow }) => (
-  <tr style={{ backgroundColor: "#2f2f2f", color: "#e0e0e0" }}>
-    {row.map((item, itemIndex) => {
-      return (
-        <TableData
-          key={itemIndex}
-          last={row.length - 1 === itemIndex}
-          lastRow={lastRow}
-        >
-          {item}
-        </TableData>
-      );
-    })}
-  </tr>
-);
+const TableRow = ({ row, lastRow, rowIndex, filePartSizes }) => {
+  return (
+    <tr style={{ backgroundColor: "#2f2f2f", color: "#e0e0e0" }}>
+      <TableData>{filePartSizes[rowIndex]} MB</TableData>
+      {row.map((item, itemIndex) => {
+        return (
+          <TableData
+            key={itemIndex}
+            last={row.length - 1 === itemIndex}
+            lastRow={lastRow}
+          >
+            {item}
+          </TableData>
+        );
+      })}
+    </tr>
+  );
+};
+
+const TableTh = ({ children, style }) => <th style={style}>{children}</th>;
 
 const TableHead = ({ data }) => (
-  <thead style={{ background: "tomato" }}>
+  <thead>
     <tr>
+      <TableTh style={{ padding: "8px" }} />
       {data[0].map((_, index) => (
-        <th key={index} style={{ padding: "8px" }}>
+        <TableTh
+          key={index}
+          style={{
+            padding: "12px 8px",
+            backgroundColor: "tomato",
+          }}
+        >
           {index + 1} MB
-        </th>
+        </TableTh>
       ))}
     </tr>
   </thead>
 );
 
-const Table = ({ data }) => {
+const Table = ({ data, filePartSizes }) => {
   return (
     <table style={{ textAlign: "center", borderSpacing: "10px" }}>
       <caption style={{ fontWeight: "bold" }}>
@@ -56,7 +69,13 @@ const Table = ({ data }) => {
       <TableHead data={data} />
       <tbody>
         {data.map((row, index) => (
-          <TableRow row={row} key={index} lastRow={data.length - 1 === index} />
+          <TableRow
+            key={index}
+            row={row}
+            rowIndex={index}
+            filePartSizes={filePartSizes}
+            lastRow={data.length - 1 === index}
+          />
         ))}
       </tbody>
     </table>
@@ -64,19 +83,33 @@ const Table = ({ data }) => {
 };
 
 const DynamicProgramming1 = () => {
+  const filePartSizes = [4, 5, 7];
   // Напишем нашу функцию для оптимизации, принимающую массив размеров частей и размер пачки
   const prioritize = (filePartSizes, chunkSize) => {
     const table = Array(filePartSizes.length).fill(Array(chunkSize).fill(0));
 
-    const result = table[filePartSizes.length - 1][chunkSize - 1];
+    // Начиная с первой линии
+    const firstLine4MB = table[0];
+    // Начиная с минимального размера чанка
+    const firstMinChunkSize = filePartSizes[0];
+
+    for (
+      let chunkSize = firstMinChunkSize;
+      chunkSize <= firstLine4MB.length;
+      chunkSize++
+    ) {
+      // console.log(chunkSize);
+    }
+
     return table;
   };
 
-  prioritize([4, 5, 7], 10);
-
   return (
     <div>
-      <Table data={prioritize([4, 5, 7], 10)} />
+      <Table
+        data={prioritize(filePartSizes, 10)}
+        filePartSizes={filePartSizes}
+      />
       <h1>Задача о рюкзаке</h1>
       <p>
         Напомним условия нашей задачи. Предположим, вы разрабатываете
