@@ -87,48 +87,46 @@ const DynamicProgramming1 = () => {
   // Напишем нашу функцию для оптимизации, принимающую массив размеров частей и размер пачки
 
   const prioritize = (filePartSizes, chunkSize) => {
+    // Создаем табилцу из нулей.
     const table = Array(filePartSizes.length)
       .fill(null)
       .map(() => Array(chunkSize).fill(0));
 
-    // Начинать от самого наимеьшей части из filePartSizes
-    const minFileParSize = filePartSizes[0];
+    for (let rowIndex = 0; rowIndex < filePartSizes.length; rowIndex++) {
+      // Начиная с rowIndex линии
+      const tableRow = table[rowIndex];
 
-    for (let i = 0; i < filePartSizes.length; i++) {
-      // Начиная с i линии
-      const tableRow = table[i];
-
+      // columnIndex - минимальная часть, откуда нужно будет начинать, чтобы избежать лишних итераций.
       for (
-        let chunkIndex = filePartSizes[0];
-        chunkIndex <= tableRow.length;
-        chunkIndex++
+        let columnIndex = filePartSizes[0];
+        columnIndex <= tableRow.length;
+        columnIndex++
       ) {
         // Ищем число максимальное число, которое можно поместить в chunk.
-        let currentChunk = 0;
-
-        console.log("current chunk coordinates =");
-        console.log("row ", i);
-        console.log("column ", chunkIndex);
+        let currentChunk = tableRow[columnIndex - 1];
 
         // Результат ячейки выше.
         const chunkAbove =
-          table[i - 1] === undefined
-            ? table[i][chunkIndex - 1]
-            : table[i - 1][chunkIndex - 1];
+          table[rowIndex - 1] === undefined
+            ? table[rowIndex][columnIndex - 1]
+            : table[rowIndex - 1][columnIndex - 1];
 
-        console.log("chunk above", chunkAbove);
-
-        /* 
-          Нам выделяется часть 
-        */
-
-        while (currentChunk + minFileParSize <= chunkIndex) {
-          currentChunk += minFileParSize;
+        // Если достигнут максимум, то пропускаем итерацию.
+        if (chunkAbove === columnIndex) {
+          currentChunk += chunkAbove;
+        } else {
+          // Иначе пробуем найти нвое число
+          let rowIteration = rowIndex;
+          while (rowIteration >= 0) {
+            if (currentChunk + filePartSizes[rowIteration] > columnIndex) {
+              rowIteration--;
+            } else {
+              currentChunk = currentChunk + filePartSizes[rowIteration];
+            }
+          }
         }
 
-        console.log("currentChunk ", currentChunk);
-
-        tableRow[chunkIndex - 1] += currentChunk;
+        tableRow[columnIndex - 1] = currentChunk;
       }
     }
 
