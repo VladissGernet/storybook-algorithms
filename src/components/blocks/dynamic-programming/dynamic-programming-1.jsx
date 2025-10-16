@@ -86,7 +86,7 @@ const DynamicProgramming1 = () => {
   const filePartSizes = [4, 5, 7];
   // Напишем нашу функцию для оптимизации, принимающую массив размеров частей и размер пачки
 
-  const prioritize = (filePartSizes, chunkSize) => {
+  const prioritizeMySolution = (filePartSizes, chunkSize) => {
     // Создаем табилцу из нулей.
     const table = Array(filePartSizes.length)
       .fill(null)
@@ -133,12 +133,54 @@ const DynamicProgramming1 = () => {
     return table;
   };
 
+  const prioritizeGuide = (filePartSizes, chunkSize) => {
+    // создаем нашу табличку
+    const table = Array(filePartSizes.length)
+      .fill()
+      .map(() => Array(chunkSize).fill(0));
+
+    // Заполняем каждую строчку последовательно
+    for (let rowIndex = 0; rowIndex < filePartSizes.length; rowIndex++) {
+      for (let cellIndex = 0; cellIndex < chunkSize; cellIndex++) {
+        const currentChunkSize = cellIndex + 1;
+        const currentFilePartSize = filePartSizes[rowIndex];
+
+        // считаем максимальное количество места, которое мы можем занять частями текущего размера
+        // Формула ниже — это максимально возможный размер, который можно занять частями данного размера, не превышая текущий доступный объём.
+        const maximumCurrent =
+          Math.floor(currentChunkSize / currentFilePartSize) *
+          currentFilePartSize;
+
+        // максимальное количество данных, которое мы можем положить в оставшееся количество места
+        // берем максимум решения предыдущей подзадачи для оставшегося места если оно есть, либо 0
+        // table[rowIndex - 1] проверяет, существует ли такая строка, чтобы не выйти за границы массива.
+
+        const maximumRest =
+          (table[rowIndex - 1] &&
+            table[rowIndex - 1][cellIndex - maximumCurrent]) ||
+          0;
+
+        // получаем общее решение для данной ячейки
+        const solution = maximumCurrent + maximumRest;
+
+        // Если есть, с чем сравнить текущее решение — сравниваем и берем максимум
+        table[rowIndex][cellIndex] =
+          rowIndex > 0
+            ? Math.max(solution, table[rowIndex - 1][cellIndex])
+            : solution;
+      }
+    }
+
+    // Результат — нижняя правая ячейка
+    return table;
+  };
+
+  // const result = prioritizeMySolution(filePartSizes, 10);
+  const result = prioritizeGuide(filePartSizes, 10);
+
   return (
     <div>
-      <Table
-        data={prioritize(filePartSizes, 10)}
-        filePartSizes={filePartSizes}
-      />
+      <Table data={result} filePartSizes={filePartSizes} />
       <h1>Задача о рюкзаке</h1>
       <p>
         Напомним условия нашей задачи. Предположим, вы разрабатываете
