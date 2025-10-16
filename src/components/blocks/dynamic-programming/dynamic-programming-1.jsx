@@ -86,6 +86,7 @@ const DynamicProgramming1 = () => {
   const filePartSizes = [4, 5, 7];
   // Напишем нашу функцию для оптимизации, принимающую массив размеров частей и размер пачки
 
+  // НЕ ИСПОЛЬЗОВАТЬ! Нейросеть perplexity говорит о неэффективности.
   const prioritizeMySolution = (filePartSizes, chunkSize) => {
     // Создаем табилцу из нулей.
     const table = Array(filePartSizes.length)
