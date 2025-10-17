@@ -27,6 +27,27 @@ const DynamicProgramming2 = () => {
     return profitByDays[profitByDays.length - 1];
   };
 
+  //   Мое решение правильное, автор из гайда ошибся
+  const countRationMySolution = (prices) => {
+    const profitByDays = Array(prices.length).fill(0);
+
+    let minPrice = prices[0];
+
+    for (let i = 1; i < prices.length; i++) {
+      minPrice = Math.min(minPrice, prices[i]);
+
+      const sellProfit = prices[i] - minPrice;
+
+      const holdProfit = profitByDays[i - 1];
+
+      profitByDays[i] = Math.max(sellProfit, holdProfit);
+    }
+
+    return profitByDays;
+  };
+
+  console.log(countRationMySolution(prices));
+
   const result = countRatio(prices, profit);
   return (
     <div>
